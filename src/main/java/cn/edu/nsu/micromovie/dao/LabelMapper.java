@@ -1,29 +1,23 @@
 package cn.edu.nsu.micromovie.dao;
 
 import cn.edu.nsu.micromovie.model.Label;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
 @Mapper
 public interface LabelMapper {
-    String INSET_FIELDS = "name,survive";
+    int deleteByPrimaryKey(Integer labelid);
 
-    @Select("select * from label")
-     List<Label> selectAllLabel();
+    int insert(Label record);
 
-    @Select("select * from label where labelid = #{id}")
-     Label selectLableByID(int id);
+    int insertSelective(Label record);
 
-    @Insert({"insert into label" ,"(",INSET_FIELDS,") values (#{name},#{survive})" })
-     void insertLabel(Label label);
+    Label selectByPrimaryKey(Integer labelid);
 
-    @Update("update form label set survive = 0 where labelid = #{id}")
-    void updateSurvive(int id);
+    int updateByPrimaryKeySelective(Label record);
 
-    @Select("select * from label where name = #{name}")
-    Label selectLableByName(String name);
+    int updateByPrimaryKey(Label record);
+
+    List<Label> selectAll();
 }

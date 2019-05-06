@@ -5,50 +5,19 @@ public class Movie {
 
     private String name;
 
-    private String translationname;
-
     private Integer time;
 
     private String country;
 
     private Double score;
-    private String img;
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-
-    public String getDownload() {
-        return download;
-    }
-
-    public void setDownload(String download) {
-        this.download = download;
-    }
-
-    private String download;
-    public String getIntro() {
-        return intro;
-    }
-
-    public void setIntro(String intro) {
-        this.intro = intro;
-    }
-
-    public int getLabelid() {
-        return labelid;
-    }
-
-    public void setLabelid(int labelid) {
-        this.labelid = labelid;
-    }
 
     private String intro;
-    private int labelid;
+
+    private Integer labelid;
+
+    private String img;
+
+    private String download;
 
     public Integer getId() {
         return id;
@@ -63,15 +32,7 @@ public class Movie {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public String getTranslationname() {
-        return translationname;
-    }
-
-    public void setTranslationname(String translationname) {
-        this.translationname = translationname == null ? null : translationname.trim();
+        this.name = name;
     }
 
     public Integer getTime() {
@@ -87,7 +48,7 @@ public class Movie {
     }
 
     public void setCountry(String country) {
-        this.country = country == null ? null : country.trim();
+        this.country = country;
     }
 
     public Double getScore() {
@@ -96,5 +57,37 @@ public class Movie {
 
     public void setScore(Double score) {
         this.score = score;
+    }
+
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro;
+    }
+
+    public Integer getLabelid() {
+        return labelid;
+    }
+
+    public void setLabelid(Integer labelid) {
+        this.labelid = labelid;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getDownload() {
+        return download;
+    }
+
+    public void setDownload(String download) {
+        this.download = download;
     }
 }

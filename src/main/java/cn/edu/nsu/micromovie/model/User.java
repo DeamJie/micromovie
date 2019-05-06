@@ -17,21 +17,14 @@ public class User {
 
     private String introduction;
 
-    public int getFreeze() {
-        return freeze;
-    }
+    private Integer freeze;
 
-    public void setFreeze(int freeze) {
-        this.freeze = freeze;
-    }
-
-    private int freeze;
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer userid) {
-        this.id = userid;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -39,7 +32,7 @@ public class User {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public String getMail() {
@@ -47,7 +40,7 @@ public class User {
     }
 
     public void setMail(String mail) {
-        this.mail = mail == null ? null : mail.trim();
+        this.mail = mail;
     }
 
     public Long getPhonenumber() {
@@ -63,7 +56,7 @@ public class User {
     }
 
     public void setPassworld(String passworld) {
-        this.passworld = passworld == null ? null : passworld.trim();
+        this.passworld = passworld;
     }
 
     public String getSalt() {
@@ -71,7 +64,7 @@ public class User {
     }
 
     public void setSalt(String salt) {
-        this.salt = salt == null ? null : salt.trim();
+        this.salt = salt;
     }
 
     public String getHeadportrait() {
@@ -79,7 +72,7 @@ public class User {
     }
 
     public void setHeadportrait(String headportrait) {
-        this.headportrait = headportrait == null ? null : headportrait.trim();
+        this.headportrait = headportrait;
     }
 
     public String getIntroduction() {
@@ -87,6 +80,14 @@ public class User {
     }
 
     public void setIntroduction(String introduction) {
-        this.introduction = introduction == null ? null : introduction.trim();
+        this.introduction = introduction;
+    }
+
+    public Integer getFreeze() {
+        return freeze;
+    }
+
+    public void setFreeze(Integer freeze) {
+        this.freeze = freeze;
     }
 }

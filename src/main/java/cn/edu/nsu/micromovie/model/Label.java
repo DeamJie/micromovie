@@ -5,16 +5,6 @@ public class Label {
 
     private String name;
 
-    private int survive;
-
-    public int getSurvive() {
-        return survive;
-    }
-
-    public void setSurvive(int survive) {
-        this.survive = survive;
-    }
-
     public Integer getLabelid() {
         return labelid;
     }
@@ -28,6 +18,6 @@ public class Label {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 }

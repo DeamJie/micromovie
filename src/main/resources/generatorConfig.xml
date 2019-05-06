@@ -18,24 +18,22 @@
         </javaTypeResolver>
         <!--生成Model类的包名及存放位置-->
         <javaModelGenerator targetPackage="cn.edu.nsu.micromovie.model" targetProject="src/main/java">
-            <property name="enableSubPackages" value="true"/>
-            <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!--生成映射文件的包名及存放位置 暂时不想用xml文件 直接用接口代替了-->
-        <sqlMapGenerator targetPackage="com.cn.mapper" targetProject="src/main/java">
-            <property name="enableSubPackages" value="true"/>
+        <sqlMapGenerator targetPackage="cn.edu.nsu.micromovie.dao" targetProject="src/main/resources">
+
         </sqlMapGenerator>
         <!--生成Dao类的包名及存放位置-->
         <javaClientGenerator type="XMLMAPPER" targetPackage="cn.edu.nsu.micromovie.dao" targetProject="src/main/java">
-            <property name="enableSubPackages" value="true"/>
+
         </javaClientGenerator>
         <!--生成对应表及类名,domainObjectName是设置实体类的名字的-->
+        <table tableName="movie" domainObjectName="Movie" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="score" domainObjectName="Score" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
         <table tableName="admin" domainObjectName="Admin" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="evaluation" domainObjectName="Evaluation" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="user" domainObjectName="User" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
         <table tableName="collection" domainObjectName="Collection" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
         <table tableName="label" domainObjectName="Label" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="evaluation" domainObjectName="Evaluation" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="movie" domainObjectName="Movie" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="user" domainObjectName="User" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-
     </context>
 </generatorConfiguration>

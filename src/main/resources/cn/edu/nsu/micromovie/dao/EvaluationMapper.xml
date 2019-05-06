@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.nsu.micromovie.dao.EvaluationMapper" >
+  <resultMap id="BaseResultMap" type="cn.edu.nsu.micromovie.model.Evaluation" >
+    <id column="evaluationid" property="evaluationid" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="movieid" property="movieid" jdbcType="INTEGER" />
+    <result column="evaluation" property="evaluation" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    evaluationid, uid, movieid, evaluation
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from evaluation
+    where evaluationid = #{evaluationid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from evaluation
+    where evaluationid = #{evaluationid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.nsu.micromovie.model.Evaluation" >
+    insert into evaluation (evaluationid, uid, movieid, 
+      evaluation)
+    values (#{evaluationid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{movieid,jdbcType=INTEGER}, 
+      #{evaluation,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.nsu.micromovie.model.Evaluation" >
+    insert into evaluation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="evaluationid != null" >
+        evaluationid,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="movieid != null" >
+        movieid,
+      </if>
+      <if test="evaluation != null" >
+        evaluation,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="evaluationid != null" >
+        #{evaluationid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="movieid != null" >
+        #{movieid,jdbcType=INTEGER},
+      </if>
+      <if test="evaluation != null" >
+        #{evaluation,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.nsu.micromovie.model.Evaluation" >
+    update evaluation
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="movieid != null" >
+        movieid = #{movieid,jdbcType=INTEGER},
+      </if>
+      <if test="evaluation != null" >
+        evaluation = #{evaluation,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where evaluationid = #{evaluationid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.nsu.micromovie.model.Evaluation" >
+    update evaluation
+    set uid = #{uid,jdbcType=INTEGER},
+      movieid = #{movieid,jdbcType=INTEGER},
+      evaluation = #{evaluation,jdbcType=VARCHAR}
+    where evaluationid = #{evaluationid,jdbcType=INTEGER}
+  </update>
+</mapper>

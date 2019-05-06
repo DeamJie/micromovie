@@ -21,7 +21,7 @@ public class Evaluation {
         return uid;
     }
 
-    public void setUserid(Integer uid) {
+    public void setUid(Integer uid) {
         this.uid = uid;
     }
 
@@ -38,6 +38,6 @@ public class Evaluation {
     }
 
     public void setEvaluation(String evaluation) {
-        this.evaluation = evaluation == null ? null : evaluation.trim();
+        this.evaluation = evaluation;
     }
 }

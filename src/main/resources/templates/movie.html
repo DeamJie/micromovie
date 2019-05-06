@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1 , user-scalable=no">
+    <title>微电影</title>
+    <link rel="shortcut icon" th:href="@{/static/base/images/logo.png}">
+    <link rel="stylesheet" th:href="@{/static/base/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/base/css/bootstrap-movie.css}">
+    <link rel="stylesheet" th:href="@{/static/base/css/animate.css}">
+    <!--播放页面-->
+    <link rel="stylesheet" type="text/css" th:href="@{/static/jwplayer/skins/stormtrooper.css}">
+    <script type="text/javascript" th:src="@{/static/ueditor/ueditor.config.js}"></script>
+    <script type="text/javascript" th:src="@{/static/ueditor/ueditor.all.js}"></script>
+    <script type="text/javascript" th:src="@{/static/ueditor/lang/zh-cn/zh-cn.js}"></script>
+    <script>
+        SyntaxHighlighter.all();
+    </script>
+    <!--播放页面-->
+    <style>
+        .navbar-brand>img {
+            display: inline;
+        }
+        .media{
+            padding:3px;
+            border:1px solid #ccc
+        }
+        .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9{
+            padding-right: 3px;
+            padding-left: 3px;
+        }
+
+
+    </style>
+    <style type="text/css">
+
+        *{margin:0;padding:0;list-style-type:none;}
+
+        body{color:#666;font:12px/1.5 Arial;}
+
+        /* star */
+
+        #star{position:relative;width:600px;margin:20px auto;height:24px;}
+
+        #star ul,#star span{float:left;display:inline;height:19px;line-height:19px;}
+
+        #star ul{margin:0 10px;}
+
+        #star li{float:left;width:24px;cursor:pointer;text-indent:-9999px;background:url(../static/base/images/star.png) no-repeat;}
+
+        #star strong{color:#f60;padding-left:10px;}
+
+        #star li.on{background-position:0 -28px;}
+
+        #star p{position:absolute;top:20px;width:159px;height:60px;display:none;background:url(images/icon.gif) no-repeat;padding:7px 10px 0;}
+
+        #star p em{color:#f60;display:block;font-style:normal;}
+
+    </style>
+
+
+
+    <script type="text/javascript">
+
+        window.onload = function (){
+
+
+
+            var oStar = document.getElementById("star");
+
+            var aLi = oStar.getElementsByTagName("li");
+
+            var oUl = oStar.getElementsByTagName("ul")[0];
+
+            var oSpan = oStar.getElementsByTagName("span")[1];
+
+            var oP = oStar.getElementsByTagName("p")[0];
+
+            var i = iScore = iStar = 0;
+
+            var aMsg = [
+
+                "很不满意|差得太离谱，与卖家描述的严重不符，非常不满",
+
+                "不满意|部分有破损，与卖家描述的不符，不满意",
+
+                "一般|质量一般，没有卖家描述的那么好",
+
+                "满意|质量不错，与卖家描述的基本一致，还是挺满意的",
+
+                "非常满意|质量非常好，与卖家描述的完全一致，非常满意"
+
+            ]
+
+
+
+            for (i = 1; i <= aLi.length; i++){
+
+                aLi[i - 1].index = i;
+
+
+
+                //鼠标移过显示分数
+
+                aLi[i - 1].onmouseover = function (){
+
+                    fnPoint(this.index);
+
+                    //浮动层显示
+
+                    oP.style.display = "block";
+
+                    //计算浮动层位置
+
+                    oP.style.left = oUl.offsetLeft + this.index * this.offsetWidth - 104 + "px";
+
+                    //匹配浮动层文字内容
+
+                    oP.innerHTML = "<em><b>" + this.index + "</b> 分 " + aMsg[this.index - 1].match(/(.+)\|/)[1] + "</em>" + aMsg[this.index - 1].match(/\|(.+)/)[1]
+
+                };
+
+
+
+                //鼠标离开后恢复上次评分
+
+                aLi[i - 1].onmouseout = function (){
+
+                    fnPoint();
+
+                    //关闭浮动层
+
+                    oP.style.display = "none"
+
+                };
+
+
+
+                //点击后进行评分处理
+
+                aLi[i - 1].onclick = function (){
+
+                    iStar = this.index;
+
+                    oP.style.display = "none";
+
+                    oSpan.innerHTML = "<strong>" + (this.index) + " 分</strong> (" + aMsg[this.index - 1].match(/\|(.+)/)[1] + ")"
+
+                }
+
+            }
+
+
+
+            //评分处理
+
+            function fnPoint(iArg){
+
+                //分数赋值
+
+                iScore = iArg || iStar;
+
+                for (i = 0; i < aLi.length; i++) aLi[i].className = i < iScore ? "on" : "";
+
+            }
+
+
+
+        };
+
+    </script>
+
+    <!--播放页面-->
+    <style>
+        .navbar-brand>img {
+            display: inline;
+        }
+        .media{
+            padding:3px;
+            border:1px solid #ccc
+        }
+        .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9{
+            padding-right: 3px;
+            padding-left: 3px;
+        }
+
+
+    </style>
+
+</head>
+
+<body>
+<!--导航-->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <!--小屏幕导航按钮和logo-->
+        <div class="navbar-header">
+            <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a th:href="index.html" class="navbar-brand" style="width:250px;">
+                <img th:src="@{/static/base/images/logo.png}" style="height:30px;">&nbsp;微电影
+            </a>
+        </div>
+        <!--小屏幕导航按钮和logo-->
+        <!--导航-->
+        <div class="navbar-collapse collapse">
+            <form class="navbar-form navbar-left" role="search" style="margin-top:18px;">
+                <div class="form-group input-group">
+                    <input type="text" class="form-control" placeholder="请输入电影名！">
+                    <span class="input-group-btn">
+                        <a class="btn btn-default" th:href="search.html"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</a>
+                    </span>
+                </div>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a class="curlink" th:href="index.html"><span class="glyphicon glyphicon-film"></span>&nbsp;电影</a>
+                </li>
+                <li>
+                    <a class="curlink" th:href="login.html"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登录</a>
+                </li>
+                <li>
+                    <a class="curlink" th:href="register.html"><span class="glyphicon glyphicon-plus"></span>&nbsp;注册</a>
+                </li>
+                <li>
+                    <a class="curlink" th:href="logout.html"><span class="glyphicon glyphicon-log-out"></span>&nbsp;退出</a>
+                </li>
+                <li>
+                    <a class="curlink" th:href="user.html"><span class="glyphicon glyphicon-user"></span>&nbsp;会员</a>
+                </li>
+            </ul>
+        </div>
+        <!--导航-->
+
+    </div>
+</nav>
+<!--导航-->
+<!--内容-->
+<div class="container" style="margin-top:76px">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="panel panel-info" style="border:1px solid white">
+                <div class="panel-heading" style="background: white;border:1px solid white">
+                    <h3><span class="glyphicon glyphicon-facetime-video"></span>&nbsp;电影介绍</h3>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-7">
+            <div class="col-md-5" style="height:350px;">
+                <img th:src="@{${movie.img}}" height="350px">
+            </div>
+            <div class="col-md-7">
+                <div class="panel panel-info">
+                    <div class="panel-body" style="height:350px;">
+                        <table class="table">
+                            <tr>
+                                <td style="width:40%;color:#ccc;font-weight:bold;font-style:italic;">
+                                    <span class="glyphicon glyphicon-film" style="font-size: large;color: #0f74a8"></span>&nbsp;片名
+                                </td>
+                                <td th:text="${movie.name}"></td>
+                            </tr>
+                            <tr>
+                                <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                    <span class="glyphicon glyphicon-tag " style="font-size: large;color: #0f74a8"></span>&nbsp;标签
+                                </td>
+                                <td th:text="${label.name}"></td>
+                            </tr>
+                            <tr>
+                                <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                    <span class="glyphicon glyphicon-map-marker"style="font-size: large;color: #0f74a8"></span>&nbsp;地区
+                                </td>
+                                <td th:text="${movie.country}"></td>
+                            </tr>
+                            <tr>
+                                <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                    <span class="glyphicon glyphicon-star"style="font-size: large;color: #0f74a8"></span>&nbsp;豆瓣评分
+                                </td>
+                                <td th:text="${movie.score}"></td>
+                            </tr>
+
+                            <tr>
+                                <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                    <span class="glyphicon glyphicon-calendar"style="font-size: large;color: #0f74a8"></span>&nbsp;上映时间
+                                </td>
+                                <td th:text="${movie.time}"></td>
+                            </tr>
+                            <tr>
+                                <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                    <span class="glyphicon glyphicon-download-alt"style="font-size: large;color: #0f74a8"></span>&nbsp;我要下载
+                                </td>
+                                <td>
+                                    <a th:href="@{${movie.download}}">点击下载</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                    <span class="glyphicon glyphicon-pencil"style="font-size: large;color: #0f74a8"></span>&nbsp;打分
+                                </td>
+                                <td>
+                                    <select>
+                                        <option value ="1">1</option>
+                                        <option value ="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value ="1">5</option>
+                                    </select>
+                                    <button>提交评分</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-3 col-md-offset-1" style=height:350px;">
+        <tr>
+            <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                <h3>猜你可能还喜欢</h3>
+            </td>
+            <a href="#"> <h4 style="color:#ccc;font-weight:bold;font-style:italic;">
+                &nbsp;电影名称
+            </h4>
+
+        </tr>
+    </div>
+    <div class="col-md-7" style="margin-top:10px;">
+        <table class="table">
+            <tr>
+                <td  style="color:#ccc;font-weight:bold;font-style:italic;width: 15%;">
+                    <span class="glyphicon glyphicon-picture" style="font-size: large;color: #0f74a8"></span>&nbsp;影片介绍
+                </td>
+                <td th:text="${movie.intro}">
+
+                </td>
+            </tr>
+        </table>
+
+    </div>
+        <div class="col-md-12" style="margin-top:6px;">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="glyphicon glyphicon-comment"></span>&nbsp;电影评论</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <strong>请先<a th:href="login.html" target="_blank" class="text-info">登录</a>，才可参与评论！</strong>
+                    </div>
+                    <ol class="breadcrumb" style="margin-top:6px;">
+                        <li>全部评论(5)</li>
+                    </ol>
+                    <form role="form" style="margin-bottom:6px;">
+                        <div class="form-group">
+                            <div>
+                                <label for="input_content">内容</label>
+                                <textarea id="input_content"></textarea>
+                            </div>
+                            <div class="col-xs-12" id="error_content"></div>
+                        </div>
+                        <a class="btn btn-success" id="btn-sub"><span class="glyphicon glyphicon-edit"></span>&nbsp;提交评论</a>
+                        &nbsp;
+                        <a class="btn btn-danger" id="btn-col"><span class="glyphicon glyphicon-heart"></span>&nbsp;收藏电影</a>
+                    </form>
+                    <ul class="commentList">
+                        <li class="item cl">
+                            <a th:href="user.html">
+                                <i class="avatar size-L radius">
+                                    <img  th:src="@{holder.js}" class="img-circle" style="border:1px solid #abcdef;">
+                                </i>
+                            </a>
+                            <div class="comment-main">
+                                <header class="comment-header">
+                                    <div class="comment-meta">
+                                        <a class="comment-author" th:href="user.html">xiaoli</a>
+                                        评论于
+                                        <time title="2016-12-07 09:12:51" datetime="2016-12-07 09:12:51">2017-03-01 09:12:51</time>
+                                    </div>
+                                </header>
+                                <div class="comment-body">
+                                    <p>这电影真好看！</p>
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <div class="col-md-12 text-center">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                <li>
+                                    <a href="#" aria-label="First">
+                                        <span aria-hidden="true">首页</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" aria-label="Previous">
+                                        <span aria-hidden="true">上一页</span>
+                                    </a>
+                                </li>
+                                <li><a href="#">1&nbsp;/&nbsp;10</a></li>
+                                <li>
+                                    <a href="#" aria-label="Next">
+                                        <span aria-hidden="true">下一页</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" aria-label="Last">
+                                        <span aria-hidden="true">尾页</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--内容-->
+<!--底部-->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p>
+
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--底部-->
+<script th:src="@{/static/base/js/jquery.min.js}"></script>
+<script th:src="@{/static/base/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/base/js/jquery.singlePageNav.min.js}"></script>
+<script th:src="@{/static/base/js/wow.min.js}"></script>
+<script th:src="@{/static/lazyload/jquery.lazyload.min.js}"></script>
+<script th:src="@{//cdn.bootcss.com/holder/2.9.4/holder.min.js}"></script>
+<!--播放页面-->
+<script th:src="@{/static/jwplayer/jwplayer.js}"></script>
+<script>
+var ue = UE.getEditor('input_content',{
+    toolbars: [
+        ['fullscreen', 'emotion', 'preview', 'link']
+    ],
+    initialFrameWidth:"100%",
+    initialFrameHeight:"100",
+});
+</script>
+
+<!--播放页面-->
+<script>
+    $(function() {
+        new WOW().init();
+    })
+</script>
+<script>
+    $(document).ready(function() {
+        $("img.lazy").lazyload({
+            effect: "fadeIn"
+        });
+    });
+</script>
+</body>
+</html>

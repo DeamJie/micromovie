@@ -22,7 +22,7 @@ public class Admin {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public String getPassworld() {
@@ -30,7 +30,7 @@ public class Admin {
     }
 
     public void setPassworld(String passworld) {
-        this.passworld = passworld == null ? null : passworld.trim();
+        this.passworld = passworld;
     }
 
     public String getSalt() {
@@ -38,6 +38,6 @@ public class Admin {
     }
 
     public void setSalt(String salt) {
-        this.salt = salt == null ? null : salt.trim();
+        this.salt = salt;
     }
 }

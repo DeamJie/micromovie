@@ -15,12 +15,12 @@ public class Collection {
         this.collectionid = collectionid;
     }
 
-    public Integer getUserid() {
+    public Integer getUid() {
         return uid;
     }
 
-    public void setUserid(Integer userid) {
-        this.uid = userid;
+    public void setUid(Integer uid) {
+        this.uid = uid;
     }
 
     public Integer getMovieid() {

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.nsu.micromovie.dao.AdminMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.nsu.micromovie.model.Admin">
+    <id column="adminid" jdbcType="INTEGER" property="adminid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="passworld" jdbcType="VARCHAR" property="passworld" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    adminid, name, passworld, salt
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from admin
+    where adminid = #{adminid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from admin
+    where adminid = #{adminid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.nsu.micromovie.model.Admin">
+    insert into admin (adminid, name, passworld, 
+      salt)
+    values (#{adminid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{passworld,jdbcType=VARCHAR}, 
+      #{salt,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.nsu.micromovie.model.Admin">
+    insert into admin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="adminid != null">
+        adminid,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="passworld != null">
+        passworld,
+      </if>
+      <if test="salt != null">
+        salt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="adminid != null">
+        #{adminid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="passworld != null">
+        #{passworld,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null">
+        #{salt,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.nsu.micromovie.model.Admin">
+    update admin
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="passworld != null">
+        passworld = #{passworld,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null">
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where adminid = #{adminid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.nsu.micromovie.model.Admin">
+    update admin
+    set name = #{name,jdbcType=VARCHAR},
+      passworld = #{passworld,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR}
+    where adminid = #{adminid,jdbcType=INTEGER}
+  </update>
+</mapper>
