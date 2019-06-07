@@ -8,10 +8,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1 , user-scalable=no">
     <title>微电影</title>
-    <link rel="shortcut icon" th:href="@{/static/base/images/logo.png}"rel="stylesheet" type="text/css">
-    <link rel="stylesheet" th:href="@{/static/base/css/bootstrap.min.css}"rel="stylesheet" type="text/css">
-    <link rel="stylesheet" th:href="@{/static/base/css/bootstrap-movie.css}"rel="stylesheet" type="text/css">
-    <link rel="stylesheet" th:href="@{/static/base/css/animate.css}"rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" th:href="@{/base/images/logo.png}">
+    <link rel="stylesheet" th:href="@{/base/css/bootstrap.min.css}"rel="stylesheet" type="text/css">
+    <link rel="stylesheet" th:href="@{/base/css/bootstrap-movie.css}"rel="stylesheet" type="text/css">
+    <link rel="stylesheet" th:href="@{/base/css/animate.css}"rel="stylesheet" type="text/css">
+    <link rel="stylesheet" th:href="@{/base/css/jquery.gritter.min.css}" type="text/css">
     <style>
         .navbar-brand>img {
             display: inline;
@@ -125,7 +126,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a href="index.html" class="navbar-brand" style="width:250px;">
-                <img th:src="@{/static/base/images/logo.png}" style="height:30px;">&nbsp;微电影
+                <img th:src="@{/base/images/logo.png}" style="height:30px;">&nbsp;微电影
             </a>
         </div>
         <!--小屏幕导航按钮和logo-->
@@ -267,16 +268,16 @@
         </div>
     </div>
 </footer>
-<script th:src="@{/static/base/js/jquery.min.js}"></script>
-<script th:src="@{/static/base/js/bootstrap.min.js}"></script>
-<script th:src="@{/static/base/js/jquery.singlePageNav.min.js}"></script>
-<script th:src="@{/static/base/js/jquery.serializejson.min.js}"></script>
-<script th:src="@{/static/base/js/wow.min.js}"></script>
+<script th:src="@{/base/js/jquery.min.js}"></script>
+<script th:src="@{/base/js/bootstrap.min.js}"></script>
+<script th:src="@{/base/js/jquery.singlePageNav.min.js}"></script>
+<script th:src="@{/base/js/jquery.serializejson.min.js}"></script>
+<script th:src="@{/base/js/jquery.gritter.min.js}"></script>
+<script th:src="@{/base/js/wow.min.js}"></script>
 <script th:src="@{//cdn.bootcss.com/holder/2.9.4/holder.min.js}"></script>
-<script th:src="@{http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js}"></script>
-<script th:src="@{http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js}"></script>
-<script th:src="@{http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js}"></script>
+<script th:src="@{/base/js/jquery.validate.min.js}"></script>
 <script type="text/javascript">
+
     var movieName="";
     $(document).ready(function(){
         $("#searchName").on("input",function(e){
@@ -284,6 +285,8 @@
         });
         validateLoginForm();
     });
+
+
     document.getElementById("search").onclick = function (){
         if(movieName ==""){
             alert("请输入电影名称");
@@ -365,7 +368,7 @@
             }
         });
     }
-    
+
     function login() {
         if (validateLoginForm()){
             var data = JSON.stringify($("#login_form").serializeJSON());
@@ -375,9 +378,14 @@
                 contentType: false,
                 processData: false,
                 data:data,
+                contentType: 'application/json',
                 dataType: "json",
-                success:function () {
-                    successTip("登录成功！");
+                success:function (result) {
+                    if (result.state) {
+                        successTip("登录成功！");
+                    }else {
+                        errorTip(result.info);
+                    }
                 },
                 error:function () {
                     errorTip("登录失败！");
@@ -400,7 +408,6 @@
             text: msg,
             class_name: 'gritter-error gritter-light'
         });
-
     }
 
 </script>

@@ -2,12 +2,13 @@ package cn.edu.nsu.micromovie.controller;
 
 import cn.edu.nsu.micromovie.model.User;
 import cn.edu.nsu.micromovie.service.UserService;
+import cn.edu.nsu.micromovie.util.HandleResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("user")
@@ -17,12 +18,15 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseBody
-    public Boolean login(User user){
-        User temp = userService.selectByName(user.getName());
-        if(temp.getPassworld().equals(user.getPassworld())){
-            return Boolean.TRUE;
+    public HandleResult login(@RequestBody User user){
+        User temp = userService.selectByEmail(user.getMail());
+        if (temp == null){
+            return HandleResult.error("登录失败，没有此用户！");
         }
-        return Boolean.FALSE;
+        if(temp.getPassworld().equals(user.getPassworld())){
+            return HandleResult.success();
+        }
+        return HandleResult.error("登录失败，请检查用户名和密码！");
     }
 
 

@@ -18,8 +18,8 @@ public class UserService {
         return userMapper.updateByPrimaryKeySelective(user);
     }
 
-    public User selectByName(String name){
-        return userMapper.selectByName(name);
+    public User selectByEmail(String name){
+        return userMapper.selectByMail(name);
     }
 
     public boolean isExit(String mail){
