@@ -1,5 +1,7 @@
 package cn.edu.nsu.micromovie.model;
 
+import java.util.Date;
+
 public class Evaluation {
     private Integer evaluationid;
 
@@ -8,6 +10,8 @@ public class Evaluation {
     private Integer movieid;
 
     private String evaluation;
+
+    private Date date;
 
     public Integer getEvaluationid() {
         return evaluationid;
@@ -39,5 +43,13 @@ public class Evaluation {
 
     public void setEvaluation(String evaluation) {
         this.evaluation = evaluation;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

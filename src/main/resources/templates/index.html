@@ -1,4 +1,5 @@
 <!doctype html>
+<!--suppress ALL -->
 <html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
@@ -27,12 +28,6 @@
 </head>
 
 <body>
-<!--
-        	作者：644773746@qq.com
-        	时间：2019-05-02
-        	描述：登录的弹出框
-        -->
-<!-- 模态框（Modal） -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -43,11 +38,11 @@
                 </div>
             </div>
             <div class="panel-body">
-                <form role="form">
+                <form id="login_form" role="form">
                     <fieldset>
                         <div class="form-group">
                             <label for="input_contact"><span class="glyphicon glyphicon-user"></span>&nbsp;账号</label>
-                            <input id="input_contact" class="form-control input-lg" placeholder="用户名/邮箱/手机号码" name="contact" type="text" autofocus>
+                            <input id="input_contact" class="form-control input-lg" placeholder="邮箱" name="name" type="text" autofocus>
                         </div>
                         <div class="col-md-12" id="error_contact"></div>
                         <div class="form-group">
@@ -55,7 +50,7 @@
                             <input id="input_password" class="form-control input-lg" placeholder="密码" name="password" type="password" value="">
                         </div>
                         <div class="col-md-12" id="error_password"></div>
-                        <a href="user.html" class="btn btn-lg btn-success btn-block">登录</a>
+                        <a href="javasript:void(0)" onclick="login()" class="btn btn-lg btn-success btn-block">登录</a>
                     </fieldset>
                 </form>
             </div>
@@ -81,34 +76,34 @@
             </div>
             <div class="panel-body">
                 <div class="panel-body">
-                    <form role="form">
+                    <form id="register_form" role="form">
                         <fieldset>
                             <div class="form-group">
-                                <label for="input_name"><span class="glyphicon glyphicon-user"></span>&nbsp;昵称</label>
-                                <input id="input_name" class="form-control input-lg" placeholder="昵称" name="name" type="text" autofocus>
+                                <label for="name"><span class="glyphicon glyphicon-user"></span>&nbsp;昵称</label>
+                                <input name="name" class="form-control input-lg" placeholder="昵称" name="name" type="text" autofocus>
                             </div>
                             <div class="col-md-12" id="error_name"></div>
                             <div class="form-group">
-                                <label for="input_email"><span class="glyphicon glyphicon-envelope"></span>&nbsp;邮箱</label>
-                                <input id="input_email" class="form-control input-lg" placeholder="邮箱" name="email" type="email" autofocus>
+                                <label for="email"><span class="glyphicon glyphicon-envelope"></span>&nbsp;邮箱</label>
+                                <input name="email" class="form-control input-lg" placeholder="邮箱" name="email" type="email" autofocus>
                             </div>
                             <div class="col-md-12" id="error_email"></div>
                             <div class="form-group">
-                                <label for="input_phone"><span class="glyphicon glyphicon-phone"></span>&nbsp;手机</label>
-                                <input id="input_phone" class="form-control input-lg" placeholder="手机" name="phone" type="text" autofocus>
+                                <label for="phoneNum"><span class="glyphicon glyphicon-phone"></span>&nbsp;手机</label>
+                                <input name="phoneNum" class="form-control input-lg" placeholder="手机" name="phone" type="text" autofocus>
                             </div>
                             <div class="col-md-12" id="error_phone"></div>
                             <div class="form-group">
-                                <label for="input_password"><span class="glyphicon glyphicon-lock"></span>&nbsp;密码</label>
-                                <input id="input_password" class="form-control input-lg" placeholder="密码" name="password" type="password" value="">
+                                <label for="password"><span class="glyphicon glyphicon-lock"></span>&nbsp;密码</label>
+                                <input id="password" class="form-control input-lg" placeholder="密码" name="password" type="password" value="">
                             </div>
                             <div class="col-md-12" id="error_password"></div>
                             <div class="form-group">
-                                <label for="input_repassword"><span class="glyphicon glyphicon-lock"></span>&nbsp;确认密码</label>
-                                <input id="input_repassword" class="form-control input-lg" placeholder="确认密码" name="repassword" type="password" value="">
+                                <label for="repassword"><span class="glyphicon glyphicon-lock"></span>&nbsp;确认密码</label>
+                                <input id="repassword" class="form-control input-lg" placeholder="确认密码" name="repassword" type="password" value="">
                             </div>
                             <div class="col-md-12" id="error_repassword"></div>
-                            <a href="user.html" class="btn btn-lg btn-success btn-block">注册</a>
+                            <a class="btn btn-lg btn-success btn-block">注册</a>
                         </fieldset>
                     </form>
                 </div>
@@ -138,9 +133,9 @@
         <div class="navbar-collapse collapse">
             <form class="navbar-form navbar-left" role="search" style="margin-top:18px;">
                 <div class="form-group input-group">
-                    <input type="text" class="form-control" placeholder="请输入电影名！">
+                    <input  id="searchName" type="text" class="form-control" placeholder="请输入电影名！">
                     <span class="input-group-btn">
-                        <a class="btn btn-default" href="search.html"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</a>
+                        <a  id="search" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</a>
                     </span>
                 </div>
             </form>
@@ -183,29 +178,24 @@
                     <tr>
                         <td style="width:10%;">电影标签</td>
                         <td style="width:90%;">
-                            <a class="label label-info" th:each="label:${lableList}" th:href="@{'/type/'+${label.labelid}}"><span class="glyphicon glyphicon-tag" th:text="${label.name}"></span>&nbsp;</a>
+                            <a class="label label-info" th:each="label:${lableList}" th:href="@{'/movie/type/'+${label.labelid}+'/1'}"><span class="glyphicon glyphicon-tag" th:text="${label.name}"></span>&nbsp;</a>
                             &nbsp;
                     </tr>
                     
                     <tr>
                         <td>上映时间</td>
                         <td>
-                            <a class="label label-default"><span class="glyphicon glyphicon-time">最近</span></a>
-                            &nbsp;
-                            <a class="label label-default"><span class="glyphicon glyphicon-time">2017</span></a>
-                            &nbsp;
-                            <a class="label label-default"><span class="glyphicon glyphicon-time">2016</span></a>
-                            &nbsp;
-                            <a class="label label-default"><span class="glyphicon glyphicon-time">2015</span></a>
-                            &nbsp;
-                            <a class="label label-default"><span class="glyphicon glyphicon-time">更早</span></a>
+                            <a href="/movie/list/2018/1" class="label label-default"><span class="glyphicon glyphicon-time">最近</span></a>
+                            <a href="/movie/list/2017/1" class="label label-default"><span class="glyphicon glyphicon-time">2017</span></a>
+                            <a href="/movie/list/2016/1" class="label label-default"><span class="glyphicon glyphicon-time">2016</span></a>
+                            <a href="/movie/list/2015/1" class="label label-default"><span class="glyphicon glyphicon-time">2015</span></a>
+                            <a href="/movie/list/2014/1" class="label label-default"><span class="glyphicon glyphicon-time">更早</span></a>
                         </td>
                     </tr>
                     <tr>
-                        <td>播放数量</td>
+                        <td>收藏数量</td>
                         <td>
                             <a class="label label-success"><span class="glyphicon glyphicon-arrow-down"></span>&nbsp;从高到底</span></a>
-                            &nbsp;
                             <a class="label label-danger"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;从低到高</span></a>
                         </td>
                     </tr>
@@ -213,7 +203,6 @@
                         <td>评论数量</td>
                         <td>
                             <a class="label label-success"><span class="glyphicon glyphicon-arrow-down"></span>&nbsp;从高到底</span></a>
-                            &nbsp;
                             <a class="label label-danger"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;从低到高</span></a>
                         </td>
                     </tr>
@@ -235,23 +224,27 @@
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <li>
-                            <a href="#" aria-label="First">
+                            <a  th:href="*{time != null}? @{'/movie/list/'+${time}+'/1'}:@{'/movie/type/'+${typeid}+'/1'}" aria-label="First">
                                 <span aria-hidden="true">首页</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#" aria-label="Previous">
+                            <a th:href="*{time != null}? @{'/movie/list/'+${time}+'/'+${pageNum-1}}:@{'/movie/type/'+${typeid}+'/'+${pageNum-1}}" aria-label="Previous">
                                 <span aria-hidden="true">上一页</span>
                             </a>
                         </li>
-                        <li><a href="#">1&nbsp;/&nbsp;10</a></li>
                         <li>
-                            <a href="#" aria-label="Next">
+                            <span th:text = ${pageNum}></span>
+                            <span >/</span>
+                            <span th:text = ${totalPage}></span>
+                        </li>
+                        <li>
+                            <a th:href="*{time != null}? @{'/movie/list/'+${time}+'/'+${pageNum+1}}:@{'/movie/type/'+${typeid}+'/'+${pageNum+1}}" aria-label="Next">
                                 <span aria-hidden="true">下一页</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#" aria-label="Last">
+                            <a th:href="*{time != null}? @{'/movie/list/'+${time}+'/'+${totalPage}}:@{'/movie/type/'+${typeid}+'/'+${totalPage}}" aria-label="Last">
                                 <span aria-hidden="true">尾页</span>
                             </a>
                         </li>
@@ -274,12 +267,142 @@
         </div>
     </div>
 </footer>
-<!--底部-->
 <script th:src="@{/static/base/js/jquery.min.js}"></script>
 <script th:src="@{/static/base/js/bootstrap.min.js}"></script>
 <script th:src="@{/static/base/js/jquery.singlePageNav.min.js}"></script>
+<script th:src="@{/static/base/js/jquery.serializejson.min.js}"></script>
 <script th:src="@{/static/base/js/wow.min.js}"></script>
-<script th:src="@{/static/lazyload/jquery.lazyload.min.js}"></script>
 <script th:src="@{//cdn.bootcss.com/holder/2.9.4/holder.min.js}"></script>
+<script th:src="@{http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js}"></script>
+<script th:src="@{http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js}"></script>
+<script th:src="@{http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js}"></script>
+<script type="text/javascript">
+    var movieName="";
+    $(document).ready(function(){
+        $("#searchName").on("input",function(e){
+            movieName=e.delegateTarget.value;
+        });
+        validateLoginForm();
+    });
+    document.getElementById("search").onclick = function (){
+        if(movieName ==""){
+            alert("请输入电影名称");
+        }else{
+            document.getElementById("search").setAttribute("href","/movie/search/"+movieName);
+        }
+    }
+    $("#register_form").validate({
+        errorElement: 'div',
+        errorClass: 'help-block',
+        focusInvalid: false,
+        debug: true,
+        rules: {
+            name:{
+                required:true,
+            },
+            email:{
+                required:true,
+                email:true
+            },
+            phoneNum:{
+                required:true
+            },
+            password:{
+                required:true
+            },
+            repassword:{
+                required:true
+            }
+        },
+        messages:{
+            name:{
+                required:"请输入昵称",
+            },
+            email:{
+                required:"请输入密码",
+                email:"请输入正确的邮箱格式"
+            },
+            phoneNum:{
+                required:"请输入电话号码"
+            },
+            password:{
+                required:"请输入密码"
+            },
+            repassword:{
+                required:"请再次输入密码"
+            }
+        },
+        highlight: function (e) {
+            $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+        }
+    });
+    function validateLoginForm(){
+        return $("#login_form").validate({
+            errorElement: 'div',
+            errorClass: 'help-block',
+            focusInvalid: false,
+            debug: true,
+            rules: {
+                name:{
+                    required:true,
+                    email:true
+                },
+                password:{
+                    required:true
+                }
+            },
+            messages:{
+                name:{
+                    required:"请输入邮箱",
+                    email:"请输入正确的邮箱格式"
+                },
+                password:{
+                    required:"请输入密码"
+                }
+            },
+            highlight: function (e) {
+                $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+            }
+        });
+    }
+    
+    function login() {
+        if (validateLoginForm()){
+            var data = JSON.stringify($("#login_form").serializeJSON());
+            $.ajax({
+                url:"/user/login",
+                type: "post",
+                contentType: false,
+                processData: false,
+                data:data,
+                dataType: "json",
+                success:function () {
+                    successTip("登录成功！");
+                },
+                error:function () {
+                    errorTip("登录失败！");
+                }
+            });
+        }
+    }
+
+    function successTip(msg){
+        $.gritter.add({
+            title: '提示信息',
+            text: msg,
+            class_name: 'gritter-success gritter-light'
+        });
+    }
+
+    function errorTip(msg){
+        $.gritter.add({
+            title: '提示信息',
+            text: msg,
+            class_name: 'gritter-error gritter-light'
+        });
+
+    }
+
+</script>
 </body>
 </html>

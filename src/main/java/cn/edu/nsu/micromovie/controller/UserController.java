@@ -5,10 +5,7 @@ import cn.edu.nsu.micromovie.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -18,30 +15,31 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/tologin")
-    public String toLogin(){
-        return "login";
-    }
-
     @PostMapping("/login")
-    public String login(@RequestParam("name") String name,@RequestParam("password") String password){
-        User user = userService.selectByName(name);
-        if(user.getPassworld().equals(password)){
-            return "redirect:/movie/list/2019";
+    @ResponseBody
+    public Boolean login(User user){
+        User temp = userService.selectByName(user.getName());
+        if(temp.getPassworld().equals(user.getPassworld())){
+            return Boolean.TRUE;
         }
-        return null;
+        return Boolean.FALSE;
     }
 
-    @GetMapping("/toregister")
-    public String toRegister(Model model){
-        User user = new User();
-        model.addAttribute("user",user);
-        return "register";
-    }
 
     @PostMapping("/register")
-    public String register(User user){
-        System.out.println(user.getName());
-        return "redirect:/movie/list/2019";
+    @ResponseBody
+    public Boolean register(User user){
+        Integer result = userService.createUser(user);
+        if(result == 1){
+            return Boolean.TRUE;
+        }else {
+            return Boolean.FALSE;
+        }
+    }
+
+    @PostMapping("/isExit")
+    @ResponseBody
+    public Boolean isExit(String mail){
+        return !userService.isExit(mail);
     }
 }

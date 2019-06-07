@@ -152,5 +152,9 @@
     <if test="labelId!=null and labelId!=0">
       and labelid = #{labelId,jdbcType=INTEGER}
     </if>
+    <if test="rows!=null and offset != null">
+      limit #{rows,jdbcType=INTEGER},
+      #{offset,jdbcType=INTEGER}
+    </if>
   </select>
 </mapper>

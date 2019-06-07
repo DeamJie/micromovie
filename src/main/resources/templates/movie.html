@@ -20,21 +20,6 @@
         SyntaxHighlighter.all();
     </script>
     <!--播放页面-->
-    <style>
-        .navbar-brand>img {
-            display: inline;
-        }
-        .media{
-            padding:3px;
-            border:1px solid #ccc
-        }
-        .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9{
-            padding-right: 3px;
-            padding-left: 3px;
-        }
-
-
-    </style>
     <style type="text/css">
 
         *{margin:0;padding:0;list-style-type:none;}
@@ -61,115 +46,7 @@
 
     </style>
 
-
-
     <script type="text/javascript">
-
-        window.onload = function (){
-
-
-
-            var oStar = document.getElementById("star");
-
-            var aLi = oStar.getElementsByTagName("li");
-
-            var oUl = oStar.getElementsByTagName("ul")[0];
-
-            var oSpan = oStar.getElementsByTagName("span")[1];
-
-            var oP = oStar.getElementsByTagName("p")[0];
-
-            var i = iScore = iStar = 0;
-
-            var aMsg = [
-
-                "很不满意|差得太离谱，与卖家描述的严重不符，非常不满",
-
-                "不满意|部分有破损，与卖家描述的不符，不满意",
-
-                "一般|质量一般，没有卖家描述的那么好",
-
-                "满意|质量不错，与卖家描述的基本一致，还是挺满意的",
-
-                "非常满意|质量非常好，与卖家描述的完全一致，非常满意"
-
-            ]
-
-
-
-            for (i = 1; i <= aLi.length; i++){
-
-                aLi[i - 1].index = i;
-
-
-
-                //鼠标移过显示分数
-
-                aLi[i - 1].onmouseover = function (){
-
-                    fnPoint(this.index);
-
-                    //浮动层显示
-
-                    oP.style.display = "block";
-
-                    //计算浮动层位置
-
-                    oP.style.left = oUl.offsetLeft + this.index * this.offsetWidth - 104 + "px";
-
-                    //匹配浮动层文字内容
-
-                    oP.innerHTML = "<em><b>" + this.index + "</b> 分 " + aMsg[this.index - 1].match(/(.+)\|/)[1] + "</em>" + aMsg[this.index - 1].match(/\|(.+)/)[1]
-
-                };
-
-
-
-                //鼠标离开后恢复上次评分
-
-                aLi[i - 1].onmouseout = function (){
-
-                    fnPoint();
-
-                    //关闭浮动层
-
-                    oP.style.display = "none"
-
-                };
-
-
-
-                //点击后进行评分处理
-
-                aLi[i - 1].onclick = function (){
-
-                    iStar = this.index;
-
-                    oP.style.display = "none";
-
-                    oSpan.innerHTML = "<strong>" + (this.index) + " 分</strong> (" + aMsg[this.index - 1].match(/\|(.+)/)[1] + ")"
-
-                }
-
-            }
-
-
-
-            //评分处理
-
-            function fnPoint(iArg){
-
-                //分数赋值
-
-                iScore = iArg || iStar;
-
-                for (i = 0; i < aLi.length; i++) aLi[i].className = i < iScore ? "on" : "";
-
-            }
-
-
-
-        };
 
     </script>
 
@@ -212,9 +89,9 @@
         <div class="navbar-collapse collapse">
             <form class="navbar-form navbar-left" role="search" style="margin-top:18px;">
                 <div class="form-group input-group">
-                    <input type="text" class="form-control" placeholder="请输入电影名！">
+                    <input id="seachName" type="text" class="form-control" placeholder="请输入电影名！">
                     <span class="input-group-btn">
-                        <a class="btn btn-default" th:href="search.html"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</a>
+                        <a id="seach" class="btn btn-default" href="#"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</a>
                     </span>
                 </div>
             </form>
@@ -304,7 +181,7 @@
                                     <span class="glyphicon glyphicon-pencil"style="font-size: large;color: #0f74a8"></span>&nbsp;打分
                                 </td>
                                 <td>
-                                    <select>
+                                    <select class="selectpicker">
                                         <option value ="1">1</option>
                                         <option value ="2">2</option>
                                         <option value="3">3</option>
@@ -360,33 +237,28 @@
                     <ol class="breadcrumb" style="margin-top:6px;">
                         <li>全部评论(5)</li>
                     </ol>
-                    <form role="form" style="margin-bottom:6px;">
+                    <form id="evaluation_form" style="margin-bottom:6px;">
                         <div class="form-group">
                             <div>
-                                <label for="input_content">内容</label>
-                                <textarea id="input_content"></textarea>
+                                <label>内容</label>
+                                <textarea id="evaluation" name="evaluation" class="col-md-12" style="height: 80px"></textarea>
+                                <input type="text" id="movieId" name="movieid" th:attr="value=${movie.id}" hidden="hidden"></input>
+                                <input type="text" id="userId" name="uid" th:attr="value=${movie.id}" hidden="hidden"></input>
                             </div>
                             <div class="col-xs-12" id="error_content"></div>
                         </div>
-                        <a class="btn btn-success" id="btn-sub"><span class="glyphicon glyphicon-edit"></span>&nbsp;提交评论</a>
+                        <a onclick="subEvaluation()" class="btn btn-success" id="btn-sub"><span class="glyphicon glyphicon-edit"></span>&nbsp;提交评论</a>
                         &nbsp;
                         <a class="btn btn-danger" id="btn-col"><span class="glyphicon glyphicon-heart"></span>&nbsp;收藏电影</a>
                     </form>
                     <ul class="commentList">
                         <li class="item cl">
-                            <a th:href="user.html">
-                                <i class="avatar size-L radius">
-                                    <img  th:src="@{holder.js}" class="img-circle" style="border:1px solid #abcdef;">
-                                </i>
-                            </a>
                             <div class="comment-main">
-                                <header class="comment-header">
                                     <div class="comment-meta">
-                                        <a class="comment-author" th:href="user.html">xiaoli</a>
+                                        <a>xiaoli</a>
                                         评论于
                                         <time title="2016-12-07 09:12:51" datetime="2016-12-07 09:12:51">2017-03-01 09:12:51</time>
                                     </div>
-                                </header>
                                 <div class="comment-body">
                                     <p>这电影真好看！</p>
                                 </div>
@@ -428,48 +300,43 @@
 </div>
 <!--内容-->
 <!--底部-->
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <p>
 
-                </p>
-            </div>
-        </div>
-    </div>
-</footer>
 <!--底部-->
 <script th:src="@{/static/base/js/jquery.min.js}"></script>
 <script th:src="@{/static/base/js/bootstrap.min.js}"></script>
 <script th:src="@{/static/base/js/jquery.singlePageNav.min.js}"></script>
 <script th:src="@{/static/base/js/wow.min.js}"></script>
-<script th:src="@{/static/lazyload/jquery.lazyload.min.js}"></script>
+<script th:src="@{/static/base/js/jquery.serializejson.min.js}"></script>
 <script th:src="@{//cdn.bootcss.com/holder/2.9.4/holder.min.js}"></script>
-<!--播放页面-->
-<script th:src="@{/static/jwplayer/jwplayer.js}"></script>
 <script>
-var ue = UE.getEditor('input_content',{
-    toolbars: [
-        ['fullscreen', 'emotion', 'preview', 'link']
-    ],
-    initialFrameWidth:"100%",
-    initialFrameHeight:"100",
-});
 </script>
 
-<!--播放页面-->
-<script>
-    $(function() {
-        new WOW().init();
-    })
-</script>
-<script>
-    $(document).ready(function() {
-        $("img.lazy").lazyload({
-            effect: "fadeIn"
-        });
-    });
+<script type="text/javascript">
+    function subEvaluation() {
+        var evaluation = document.getElementById("evaluation").value;
+        if(evaluation == ""||evaluation==null){
+            alert("请输入评论");
+            return ;
+        }
+        var jsonString = JSON.stringify($("#evaluation_form").serializeJSON());
+        var request = new XMLHttpRequest();
+        request.open("post","/evaluation/add");
+        request.setRequestHeader("Content-type","application/json");
+        request.send(jsonString);
+        request.onreadystatechange = function () {
+            if(request.readyState==4)
+            {
+                if(request.status==200)//判断是否成功,如果是200，就代表成功
+                {
+                    alert(request.responseText);
+                }
+                else
+                {
+                    alert("评论失败");
+                }
+            }
+        }
+    }
 </script>
 </body>
 </html>

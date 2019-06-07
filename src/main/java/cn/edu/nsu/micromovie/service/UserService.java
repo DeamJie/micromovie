@@ -21,4 +21,10 @@ public class UserService {
     public User selectByName(String name){
         return userMapper.selectByName(name);
     }
+
+    public boolean isExit(String mail){
+        User user = userMapper.selectByMail(mail);
+        if (user == null) return false;
+        else return true;
+    }
 }
