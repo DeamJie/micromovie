@@ -30,4 +30,10 @@ public class EvaluationController {
             return "评论失败";
         }
     }
+
+    @GetMapping("/list/{userId}")
+    @ResponseBody
+    public String getEvaluationList(@PathVariable("userId") Integer userId){
+        return null;
+    }
 }
