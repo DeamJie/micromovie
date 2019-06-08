@@ -43,12 +43,12 @@
                     <fieldset>
                         <div class="form-group">
                             <label for="input_contact"><span class="glyphicon glyphicon-user"></span>&nbsp;账号</label>
-                            <input id="input_contact" class="form-control input-lg" placeholder="邮箱" name="name" type="text" autofocus>
+                            <input id="input_contact" class="form-control input-lg" placeholder="邮箱" name="mail" type="text" autofocus>
                         </div>
                         <div class="col-md-12" id="error_contact"></div>
                         <div class="form-group">
                             <label for="input_password"><span class="glyphicon glyphicon-lock"></span>&nbsp;密码</label>
-                            <input id="input_password" class="form-control input-lg" placeholder="密码" name="password" type="password" value="">
+                            <input id="input_password" class="form-control input-lg" placeholder="密码" name="passworld" type="password" value="">
                         </div>
                         <div class="col-md-12" id="error_password"></div>
                         <a href="javasript:void(0)" onclick="login()" class="btn btn-lg btn-success btn-block">登录</a>
@@ -81,30 +81,30 @@
                         <fieldset>
                             <div class="form-group">
                                 <label for="name"><span class="glyphicon glyphicon-user"></span>&nbsp;昵称</label>
-                                <input name="name" class="form-control input-lg" placeholder="昵称" name="name" type="text" autofocus>
+                                <input class="form-control input-lg" placeholder="昵称" name="name" type="text" autofocus>
                             </div>
                             <div class="col-md-12" id="error_name"></div>
                             <div class="form-group">
                                 <label for="email"><span class="glyphicon glyphicon-envelope"></span>&nbsp;邮箱</label>
-                                <input name="email" class="form-control input-lg" placeholder="邮箱" name="email" type="email" autofocus>
+                                <input name="mail" class="form-control input-lg" placeholder="邮箱"  type="email" autofocus>
                             </div>
                             <div class="col-md-12" id="error_email"></div>
                             <div class="form-group">
                                 <label for="phoneNum"><span class="glyphicon glyphicon-phone"></span>&nbsp;手机</label>
-                                <input name="phoneNum" class="form-control input-lg" placeholder="手机" name="phone" type="text" autofocus>
+                                <input name="phonenumber" class="form-control input-lg" placeholder="手机" type="text" autofocus>
                             </div>
                             <div class="col-md-12" id="error_phone"></div>
                             <div class="form-group">
                                 <label for="password"><span class="glyphicon glyphicon-lock"></span>&nbsp;密码</label>
-                                <input id="password" class="form-control input-lg" placeholder="密码" name="password" type="password" value="">
+                                <input id="passworld" class="form-control input-lg" placeholder="密码" name="passworld" type="password">
                             </div>
                             <div class="col-md-12" id="error_password"></div>
                             <div class="form-group">
                                 <label for="repassword"><span class="glyphicon glyphicon-lock"></span>&nbsp;确认密码</label>
-                                <input id="repassword" class="form-control input-lg" placeholder="确认密码" name="repassword" type="password" value="">
+                                <input id="repassword" class="form-control input-lg" placeholder="确认密码" name="repassword" type="password">
                             </div>
                             <div class="col-md-12" id="error_repassword"></div>
-                            <a class="btn btn-lg btn-success btn-block">注册</a>
+                            <a href="javascript:void(0)" onclick="register()" class="btn btn-lg btn-success btn-block">注册</a>
                         </fieldset>
                     </form>
                 </div>
@@ -154,7 +154,7 @@
                     <a class="curlink" href="logout.html"><span class="glyphicon glyphicon-log-out"></span>&nbsp;退出</a>
                 </li>
                 <li>
-                    <a class="curlink" href="user.html"><span class="glyphicon glyphicon-user"></span>&nbsp;会员</a>
+                    <a  class="curlink" href="/user/info"><span class="glyphicon glyphicon-user"></span>&nbsp;会员</a>
                 </li>
             </ul>
         </div>
@@ -278,12 +278,19 @@
 <script th:src="@{/base/js/jquery.validate.min.js}"></script>
 <script type="text/javascript">
 
+    jQuery.validator.addMethod("isMobile", function(value, element) {
+        var length = value.length;
+        var mobile = /^(13[0-9]{9})|(18[0-9]{9})|(14[0-9]{9})|(17[0-9]{9})|(15[0-9]{9})$/;
+        return this.optional(element) || (length == 11 && mobile.test(value));
+    }, "请正确填写您的手机号码");
+
     var movieName="";
     $(document).ready(function(){
         $("#searchName").on("input",function(e){
             movieName=e.delegateTarget.value;
         });
         validateLoginForm();
+        validateRegisterForm()
     });
 
 
@@ -294,57 +301,69 @@
             document.getElementById("search").setAttribute("href","/movie/search/"+movieName);
         }
     }
-    $("#register_form").validate({
-        errorElement: 'div',
-        errorClass: 'help-block',
-        focusInvalid: false,
-        debug: true,
-        rules: {
-            name:{
-                required:true,
+    function validateRegisterForm(){
+        return $("#register_form").validate({
+            errorElement: 'div',
+            errorClass: 'help-block',
+            focusInvalid: false,
+            debug: true,
+            rules: {
+                name:{
+                    required:true,
+                },
+                mail:{
+                    required:true,
+                    email:true,
+                    remote:{
+                        url:"/user/isExit",
+                        type:"Post",
+                        dataType: "json"
+                    }
+                },
+                phonenumber:{
+                    required:true,
+                    isMobile:true
+
+                },
+                passworld:{
+                    required:true
+                },
+                repassword:{
+                    required:true,
+                    equalTo: "#passworld"
+                }
             },
-            email:{
-                required:true,
-                email:true
+            messages:{
+                name:{
+                    required:"请输入昵称",
+                },
+                mail:{
+                    required:"请输入邮箱",
+                    email:"请输入正确的邮箱格式",
+                    remote:"该邮箱已经注册"
+                },
+                phonenumber:{
+                    required:"请输入电话号码",
+                },
+                passworld:{
+                    required:"请输入密码"
+                },
+                repassword:{
+                    required:"请再次输入密码",
+                    equalTo: "两次输入密码不相同"
+                }
             },
-            phoneNum:{
-                required:true
-            },
-            password:{
-                required:true
-            },
-            repassword:{
-                required:true
+            highlight: function (e) {
+                $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
             }
-        },
-        messages:{
-            name:{
-                required:"请输入昵称",
-            },
-            email:{
-                required:"请输入密码",
-                email:"请输入正确的邮箱格式"
-            },
-            phoneNum:{
-                required:"请输入电话号码"
-            },
-            password:{
-                required:"请输入密码"
-            },
-            repassword:{
-                required:"请再次输入密码"
-            }
-        },
-        highlight: function (e) {
-            $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
-        }
-    });
+        });
+    }
+
     function validateLoginForm(){
         return $("#login_form").validate({
             errorElement: 'div',
             errorClass: 'help-block',
             focusInvalid: false,
-            debug: true,
             rules: {
                 name:{
                     required:true,
@@ -357,7 +376,7 @@
             messages:{
                 name:{
                     required:"请输入邮箱",
-                    email:"请输入正确的邮箱格式"
+                    email:"请输入正确的邮箱格式",
                 },
                 password:{
                     required:"请输入密码"
@@ -370,7 +389,7 @@
     }
 
     function login() {
-        if (validateLoginForm()){
+        if (validateLoginForm().form()){
             var data = JSON.stringify($("#login_form").serializeJSON());
             $.ajax({
                 url:"/user/login",
@@ -394,6 +413,31 @@
         }
     }
 
+    function register() {
+        if(validateRegisterForm().form()){
+            var data = JSON.stringify($("#register_form").serializeJSON());
+            $.ajax({
+                url:"/user/register",
+                type: "post",
+                contentType: false,
+                processData: false,
+                data:data,
+                contentType: 'application/json',
+                dataType: "json",
+                success:function (result) {
+                    if (result.state) {
+                        successTip("注册成功！");
+                    }else {
+                        errorTip(result.info);
+                    }
+                },
+                error:function () {
+                    errorTip("注册失败！");
+                }
+            });
+        }
+    }
+    
     function successTip(msg){
         $.gritter.add({
             title: '提示信息',

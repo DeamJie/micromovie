@@ -11,6 +11,9 @@ public class UserService {
     private UserMapper userMapper;
 
     public int createUser(User user){
+        if (!isExit(user.getMail())){
+            return 0;
+        }
         return userMapper.insertSelective(user);
     }
 
@@ -24,7 +27,7 @@ public class UserService {
 
     public boolean isExit(String mail){
         User user = userMapper.selectByMail(mail);
-        if (user == null) return false;
-        else return true;
+        if (user == null) return true;
+        else return false;
     }
 }
