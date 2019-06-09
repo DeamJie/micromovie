@@ -142,19 +142,19 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a class="curlink" href="index.html"><span class="glyphicon glyphicon-film"></span>&nbsp;电影</a>
+                    <a class="curlink" href="index.html"><span class="glyphicon glyphicon-film"></span>电影</a>
                 </li>
                 <li>
-                    <a class="curlink" data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登录</a>
+                    <a th:if="${session.user==null}" class="curlink" data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span>登录</a>
                 </li>
                 <li>
-                    <a class="curlink" data-toggle="modal" data-target="#registerModal"><span class="glyphicon glyphicon-plus"></span>&nbsp;注册</a>
+                    <a th:if="${session.user==null}" class="curlink" data-toggle="modal" data-target="#registerModal"><span class="glyphicon glyphicon-plus"></span>注册</a>
                 </li>
                 <li>
-                    <a class="curlink" href="logout.html"><span class="glyphicon glyphicon-log-out"></span>&nbsp;退出</a>
+                    <a th:if="${session.user!=null}" class="curlink" href="javascript:void(0)" onclick="loginOut()"><span class="glyphicon glyphicon-log-out"></span>退出</a>
                 </li>
                 <li>
-                    <a  class="curlink" href="/user/info"><span class="glyphicon glyphicon-user"></span>&nbsp;会员</a>
+                    <a th:if="${session.user!=null}" th:text="${session.user.name}"  class="curlink" href="/user/info"><span class="glyphicon glyphicon-user"></span></a>
                 </li>
             </ul>
         </div>
@@ -220,7 +220,7 @@
                     <a th:href="@{'/movie/'+${movie.id}}" class="btn btn-primary" target="_blank" role="button" style="margin-top: 0px"><span class="glyphicon glyphicon-play"></span>&nbsp;查看</a>
                 </div>
             </div>
-            
+
             <div class="col-md-12">
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
@@ -290,7 +290,7 @@
             movieName=e.delegateTarget.value;
         });
         validateLoginForm();
-        validateRegisterForm()
+        validateRegisterForm();
     });
 
 
@@ -364,21 +364,22 @@
             errorElement: 'div',
             errorClass: 'help-block',
             focusInvalid: false,
+            debug: true,
             rules: {
-                name:{
+                mail:{
                     required:true,
                     email:true
                 },
-                password:{
+                passworld:{
                     required:true
                 }
             },
             messages:{
-                name:{
+                mail:{
                     required:"请输入邮箱",
                     email:"请输入正确的邮箱格式",
                 },
-                password:{
+                passworld:{
                     required:"请输入密码"
                 }
             },
@@ -454,6 +455,22 @@
         });
     }
 
+    function loginOut() {
+        $.ajax({
+           url:"/user/exit",
+           type:"get",
+           success:function (result) {
+               if (result.state){
+                   successTip("注销登录成功！");
+               } else {
+                   errorTip(result.info);
+               }
+           },
+           error:function (result) {
+               errorTip("注销失败！")
+           }
+        })
+    }
 </script>
 </body>
 </html>

@@ -90,4 +90,12 @@
       date = #{date,jdbcType=DATE}
     where evaluationid = #{evaluationid,jdbcType=INTEGER}
   </update>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="cn.edu.nsu.micromovie.Filter.EvaluationFilter">
+    select
+    <include refid="Base_Column_List"/>
+    from evaluation
+    where uid = #{useId,jdbcType=INTEGER}
+    order by date desc
+    limit #{rows,jdbcType=INTEGER},#{offset,jdbcType=INTEGER}
+  </select>
 </mapper>

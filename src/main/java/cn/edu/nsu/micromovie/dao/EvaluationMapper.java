@@ -1,7 +1,12 @@
 package cn.edu.nsu.micromovie.dao;
 
+import cn.edu.nsu.micromovie.Filter.EvaluationFilter;
 import cn.edu.nsu.micromovie.model.Evaluation;
+import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
+@Mapper
 public interface EvaluationMapper {
     int deleteByPrimaryKey(Integer evaluationid);
 
@@ -14,4 +19,6 @@ public interface EvaluationMapper {
     int updateByPrimaryKeySelective(Evaluation record);
 
     int updateByPrimaryKey(Evaluation record);
+
+    List<Evaluation> selectByUserId(EvaluationFilter filter);
 }

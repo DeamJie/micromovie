@@ -2,6 +2,7 @@ package cn.edu.nsu.micromovie.service;
 
 import cn.edu.nsu.micromovie.dao.UserMapper;
 import cn.edu.nsu.micromovie.model.User;
+import cn.edu.nsu.micromovie.util.security.CryptUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

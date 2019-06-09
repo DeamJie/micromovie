@@ -1,4 +1,5 @@
 <!doctype html>
+<!--suppress ALL -->
 <html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
@@ -7,50 +8,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1 , user-scalable=no">
     <title>微电影</title>
-    <link rel="shortcut icon" th:href="@{/static/base/images/logo.png}">
-    <link rel="stylesheet" th:href="@{/static/base/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/static/base/css/bootstrap-movie.css}">
-    <link rel="stylesheet" th:href="@{/static/base/css/animate.css}">
-    <!--播放页面-->
-    <link rel="stylesheet" type="text/css" th:href="@{/static/jwplayer/skins/stormtrooper.css}">
-    <script type="text/javascript" th:src="@{/static/ueditor/ueditor.config.js}"></script>
-    <script type="text/javascript" th:src="@{/static/ueditor/ueditor.all.js}"></script>
-    <script type="text/javascript" th:src="@{/static/ueditor/lang/zh-cn/zh-cn.js}"></script>
-    <script>
-        SyntaxHighlighter.all();
-    </script>
-    <!--播放页面-->
-    <style type="text/css">
-
-        *{margin:0;padding:0;list-style-type:none;}
-
-        body{color:#666;font:12px/1.5 Arial;}
-
-        /* star */
-
-        #star{position:relative;width:600px;margin:20px auto;height:24px;}
-
-        #star ul,#star span{float:left;display:inline;height:19px;line-height:19px;}
-
-        #star ul{margin:0 10px;}
-
-        #star li{float:left;width:24px;cursor:pointer;text-indent:-9999px;background:url(../static/base/images/star.png) no-repeat;}
-
-        #star strong{color:#f60;padding-left:10px;}
-
-        #star li.on{background-position:0 -28px;}
-
-        #star p{position:absolute;top:20px;width:159px;height:60px;display:none;background:url(images/icon.gif) no-repeat;padding:7px 10px 0;}
-
-        #star p em{color:#f60;display:block;font-style:normal;}
-
-    </style>
-
-    <script type="text/javascript">
-
-    </script>
-
-    <!--播放页面-->
+    <link rel="shortcut icon" th:href="@{/base/images/logo.png}">
+    <link rel="stylesheet" th:href="@{/base/css/bootstrap.min.css}"rel="stylesheet" type="text/css">
+    <link rel="stylesheet" th:href="@{/base/css/bootstrap-movie.css}"rel="stylesheet" type="text/css">
+    <link rel="stylesheet" th:href="@{/base/css/animate.css}"rel="stylesheet" type="text/css">
+    <link rel="stylesheet" th:href="@{/base/css/jquery.gritter.min.css}" type="text/css">
     <style>
         .navbar-brand>img {
             display: inline;
@@ -70,6 +32,92 @@
 </head>
 
 <body>
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="glyphicon glyphicon-log-in"></span>&nbsp;会员登录</h3>
+                </div>
+            </div>
+            <div class="panel-body">
+                <form id="login_form" role="form">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="input_contact"><span class="glyphicon glyphicon-user"></span>&nbsp;账号</label>
+                            <input id="input_contact" class="form-control input-lg" placeholder="邮箱" name="mail" type="text" autofocus>
+                        </div>
+                        <div class="col-md-12" id="error_contact"></div>
+                        <div class="form-group">
+                            <label for="input_password"><span class="glyphicon glyphicon-lock"></span>&nbsp;密码</label>
+                            <input id="input_password" class="form-control input-lg" placeholder="密码" name="passworld" type="password" value="">
+                        </div>
+                        <div class="col-md-12" id="error_password"></div>
+                        <a href="javasript:void(0)" onclick="login()" class="btn btn-lg btn-success btn-block">登录</a>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal -->
+</div>
+
+<!--
+    作者：644773746@qq.com
+    时间：2019-05-02
+    描述：注册的弹出框
+-->
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="glyphicon glyphicon-plus"></span>&nbsp;会员注册</h3>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="panel-body">
+                    <form id="register_form" role="form">
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="name"><span class="glyphicon glyphicon-user"></span>&nbsp;昵称</label>
+                                <input class="form-control input-lg" placeholder="昵称" name="name" type="text" autofocus>
+                            </div>
+                            <div class="col-md-12" id="error_name"></div>
+                            <div class="form-group">
+                                <label for="email"><span class="glyphicon glyphicon-envelope"></span>&nbsp;邮箱</label>
+                                <input name="mail" class="form-control input-lg" placeholder="邮箱"  type="email" autofocus>
+                            </div>
+                            <div class="col-md-12" id="error_email"></div>
+                            <div class="form-group">
+                                <label for="phoneNum"><span class="glyphicon glyphicon-phone"></span>&nbsp;手机</label>
+                                <input name="phonenumber" class="form-control input-lg" placeholder="手机" type="text" autofocus>
+                            </div>
+                            <div class="col-md-12" id="error_phone"></div>
+                            <div class="form-group">
+                                <label for="password"><span class="glyphicon glyphicon-lock"></span>&nbsp;密码</label>
+                                <input id="passworld" class="form-control input-lg" placeholder="密码" name="passworld" type="password">
+                            </div>
+                            <div class="col-md-12" id="error_password"></div>
+                            <div class="form-group">
+                                <label for="repassword"><span class="glyphicon glyphicon-lock"></span>&nbsp;确认密码</label>
+                                <input id="repassword" class="form-control input-lg" placeholder="确认密码" name="repassword" type="password">
+                            </div>
+                            <div class="col-md-12" id="error_repassword"></div>
+                            <a href="javascript:void(0)" onclick="register()" class="btn btn-lg btn-success btn-block">注册</a>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal -->
+</div>
+</div>
 <!--导航-->
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -81,7 +129,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a th:href="index.html" class="navbar-brand" style="width:250px;">
-                <img th:src="@{/static/base/images/logo.png}" style="height:30px;">&nbsp;微电影
+                <img th:src="@{/base/images/logo.png}" style="height:30px;">&nbsp;微电影
             </a>
         </div>
         <!--小屏幕导航按钮和logo-->
@@ -97,19 +145,19 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a class="curlink" th:href="index.html"><span class="glyphicon glyphicon-film"></span>&nbsp;电影</a>
+                    <a class="curlink" href="index.html"><span class="glyphicon glyphicon-film"></span>电影</a>
                 </li>
                 <li>
-                    <a class="curlink" th:href="login.html"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登录</a>
+                    <a th:if="${session.user==null}" class="curlink" data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span>登录</a>
                 </li>
                 <li>
-                    <a class="curlink" th:href="register.html"><span class="glyphicon glyphicon-plus"></span>&nbsp;注册</a>
+                    <a th:if="${session.user==null}" class="curlink" data-toggle="modal" data-target="#registerModal"><span class="glyphicon glyphicon-plus"></span>注册</a>
                 </li>
                 <li>
-                    <a class="curlink" th:href="logout.html"><span class="glyphicon glyphicon-log-out"></span>&nbsp;退出</a>
+                    <a th:if="${session.user!=null}" class="curlink" href="javascript:void(0)" onclick="loginOut()"><span class="glyphicon glyphicon-log-out"></span>退出</a>
                 </li>
                 <li>
-                    <a class="curlink" th:href="user.html"><span class="glyphicon glyphicon-user"></span>&nbsp;会员</a>
+                    <a th:if="${session.user!=null}" th:text="${session.user.name}"  class="curlink" href="/user/info"><span class="glyphicon glyphicon-user"></span></a>
                 </li>
             </ul>
         </div>
@@ -188,7 +236,7 @@
                                         <option value="4">4</option>
                                         <option value ="1">5</option>
                                     </select>
-                                    <button>提交评分</button>
+                                    <button class="btn btn-xs" style="border-radius: 4px">提交评分</button>
                                 </td>
                             </tr>
                         </table>
@@ -227,16 +275,13 @@
                     <h3 class="panel-title"><span class="glyphicon glyphicon-comment"></span>&nbsp;电影评论</h3>
                 </div>
                 <div class="panel-body">
-                    <div class="alert alert-danger alert-dismissible" role="alert">
+                    <div th:if="${session.user==null}" class="alert alert-danger alert-dismissible" role="alert">
                         <button type="button" class="close" data-dismiss="alert">
                             <span aria-hidden="true">×</span>
                             <span class="sr-only">Close</span>
                         </button>
-                        <strong>请先<a th:href="login.html" target="_blank" class="text-info">登录</a>，才可参与评论！</strong>
+                        <strong>请先<a href="javascript:void(0)" onclick="showLoginModel()" target="_blank" class="text-info">登录</a>，才可参与评论！</strong>
                     </div>
-                    <ol class="breadcrumb" style="margin-top:6px;">
-                        <li>全部评论(5)</li>
-                    </ol>
                     <form id="evaluation_form" style="margin-bottom:6px;">
                         <div class="form-group">
                             <div>
@@ -302,12 +347,14 @@
 <!--底部-->
 
 <!--底部-->
-<script th:src="@{/static/base/js/jquery.min.js}"></script>
-<script th:src="@{/static/base/js/bootstrap.min.js}"></script>
-<script th:src="@{/static/base/js/jquery.singlePageNav.min.js}"></script>
-<script th:src="@{/static/base/js/wow.min.js}"></script>
-<script th:src="@{/static/base/js/jquery.serializejson.min.js}"></script>
+<script th:src="@{/base/js/jquery.min.js}"></script>
+<script th:src="@{/base/js/bootstrap.min.js}"></script>
+<script th:src="@{/base/js/jquery.singlePageNav.min.js}"></script>
+<script th:src="@{/base/js/jquery.serializejson.min.js}"></script>
+<script th:src="@{/base/js/jquery.gritter.min.js}"></script>
+<script th:src="@{/base/js/wow.min.js}"></script>
 <script th:src="@{//cdn.bootcss.com/holder/2.9.4/holder.min.js}"></script>
+<script th:src="@{/base/js/jquery.validate.min.js}"></script>
 <script>
 </script>
 
@@ -336,6 +383,205 @@
                 }
             }
         }
+    }
+</script>
+<script type="text/javascript">
+
+    jQuery.validator.addMethod("isMobile", function(value, element) {
+        var length = value.length;
+        var mobile = /^(13[0-9]{9})|(18[0-9]{9})|(14[0-9]{9})|(17[0-9]{9})|(15[0-9]{9})$/;
+        return this.optional(element) || (length == 11 && mobile.test(value));
+    }, "请正确填写您的手机号码");
+
+    var movieName="";
+    $(document).ready(function(){
+        $("#searchName").on("input",function(e){
+            movieName=e.delegateTarget.value;
+        });
+        validateLoginForm();
+        validateRegisterForm()
+    });
+
+
+    document.getElementById("search").onclick = function (){
+        if(movieName ==""){
+            alert("请输入电影名称");
+        }else{
+            document.getElementById("search").setAttribute("href","/movie/search/"+movieName);
+        }
+    }
+    function validateRegisterForm(){
+        return $("#register_form").validate({
+            errorElement: 'div',
+            errorClass: 'help-block',
+            focusInvalid: false,
+            debug: true,
+            rules: {
+                name:{
+                    required:true,
+                },
+                mail:{
+                    required:true,
+                    email:true,
+                    remote:{
+                        url:"/user/isExit",
+                        type:"Post",
+                        dataType: "json"
+                    }
+                },
+                phonenumber:{
+                    required:true,
+                    isMobile:true
+
+                },
+                passworld:{
+                    required:true
+                },
+                repassword:{
+                    required:true,
+                    equalTo: "#passworld"
+                }
+            },
+            messages:{
+                name:{
+                    required:"请输入昵称",
+                },
+                mail:{
+                    required:"请输入邮箱",
+                    email:"请输入正确的邮箱格式",
+                    remote:"该邮箱已经注册"
+                },
+                phonenumber:{
+                    required:"请输入电话号码",
+                },
+                passworld:{
+                    required:"请输入密码"
+                },
+                repassword:{
+                    required:"请再次输入密码",
+                    equalTo: "两次输入密码不相同"
+                }
+            },
+            highlight: function (e) {
+                $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+            }
+        });
+    }
+
+    function validateLoginForm(){
+        return $("#login_form").validate({
+            errorElement: 'div',
+            errorClass: 'help-block',
+            focusInvalid: false,
+            rules: {
+                toEmail:{
+                    required:true,
+                    email:true
+                },
+                passworld:{
+                    required:true
+                }
+            },
+            messages:{
+                mail:{
+                    required:"请输入邮箱",
+                    email:"请输入正确的邮箱格式",
+                },
+                passworld:{
+                    required:"请输入密码"
+                }
+            },
+            highlight: function (e) {
+                $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+            }
+        });
+    }
+
+    function login() {
+        if (validateLoginForm().form()){
+            var data = JSON.stringify($("#login_form").serializeJSON());
+            $.ajax({
+                url:"/user/login",
+                type: "post",
+                contentType: false,
+                processData: false,
+                data:data,
+                contentType: 'application/json',
+                dataType: "json",
+                success:function (result) {
+                    if (result.state) {
+                        successTip("登录成功！");
+                    }else {
+                        errorTip(result.info);
+                    }
+                },
+                error:function () {
+                    errorTip("登录失败！");
+                }
+            });
+        }
+    }
+
+    function register() {
+        if(validateRegisterForm().form()){
+            var data = JSON.stringify($("#register_form").serializeJSON());
+            $.ajax({
+                url:"/user/register",
+                type: "post",
+                contentType: false,
+                processData: false,
+                data:data,
+                contentType: 'application/json',
+                dataType: "json",
+                success:function (result) {
+                    if (result.state) {
+                        successTip("注册成功！");
+                    }else {
+                        errorTip(result.info);
+                    }
+                },
+                error:function () {
+                    errorTip("注册失败！");
+                }
+            });
+        }
+    }
+
+    function successTip(msg){
+        $.gritter.add({
+            title: '提示信息',
+            text: msg,
+            class_name: 'gritter-success gritter-light'
+        });
+    }
+
+    function errorTip(msg){
+        $.gritter.add({
+            title: '提示信息',
+            text: msg,
+            class_name: 'gritter-error gritter-light'
+        });
+    }
+
+    function loginOut() {
+        $.ajax({
+            url:"/user/exit",
+            type:"get",
+            success:function (result) {
+                if (result.state){
+                    successTip("注销登录成功！");
+                } else {
+                    errorTip(result.info);
+                }
+            },
+            error:function (result) {
+                errorTip("注销失败！")
+            }
+        })
+    }
+    
+    function showLoginModel() {
+        $("#loginModal").modal("show");
     }
 </script>
 </body>

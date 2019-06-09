@@ -1,7 +1,9 @@
 package cn.edu.nsu.micromovie.dao;
 
 import cn.edu.nsu.micromovie.model.Score;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface ScoreMapper {
     int deleteByPrimaryKey(Integer id);
 
