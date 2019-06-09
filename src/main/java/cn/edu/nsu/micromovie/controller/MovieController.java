@@ -1,8 +1,12 @@
 package cn.edu.nsu.micromovie.controller;
 
+import cn.edu.nsu.micromovie.Filter.EvaluationFilter;
 import cn.edu.nsu.micromovie.Filter.MovieFilter;
+import cn.edu.nsu.micromovie.dto.EvaluationDto;
 import cn.edu.nsu.micromovie.model.Label;
 import cn.edu.nsu.micromovie.model.Movie;
+import cn.edu.nsu.micromovie.model.User;
+import cn.edu.nsu.micromovie.service.EvaluationService;
 import cn.edu.nsu.micromovie.service.LabelService;
 import cn.edu.nsu.micromovie.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/movie")
@@ -21,6 +27,8 @@ public class MovieController {
     private MovieService movieService;
     @Autowired
     private LabelService labelService;
+    @Autowired
+    private EvaluationService evaluationService;
 
     @GetMapping("/list/{time}/{pageNum}")
     public String movieList(@PathVariable("time") String time, Model model,@PathVariable("pageNum") Integer pageNum){
@@ -46,9 +54,17 @@ public class MovieController {
     }
 
     @GetMapping("/{movieid}")
-    public String getMovie(@PathVariable("movieid") Integer id , Model model){
+    public String getMovie(@PathVariable("movieid") Integer id , Model model , HttpSession session){
+        EvaluationFilter filter = new EvaluationFilter();
+        filter.setMovieid(id);
+        List<EvaluationDto> list = evaluationService.selectByMovieId(filter);
         model.addAttribute("movie",movieService.selectById(id));
         labelService.selectById(movieService.selectById(id).getLabelid());
+        if (session.getAttribute("user")!=null){
+            User user = (User)session.getAttribute("user");
+            model.addAttribute("id",user.getId());
+        }
+        model.addAttribute("list",list);
         model.addAttribute("label",labelService.selectById(movieService.selectById(id).getLabelid()));
         return "movie";
     }

@@ -7,6 +7,8 @@ public class Score {
 
     private Integer moveid;
 
+    private Integer score;
+
     public Integer getId() {
         return id;
     }
@@ -25,6 +27,14 @@ public class Score {
 
     public Integer getMoveid() {
         return moveid;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
     }
 
     public void setMoveid(Integer moveid) {

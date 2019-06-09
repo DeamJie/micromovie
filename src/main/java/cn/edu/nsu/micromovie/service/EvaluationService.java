@@ -28,8 +28,21 @@ public class EvaluationService {
     public List<EvaluationDto> selectByUserID(EvaluationFilter filter){
         List<Evaluation> list = evaluationMapper.selectByUserId(filter);
         List<EvaluationDto> result = new ArrayList<>();
-        for (Evaluation e:list){
-            result.add(change(e));
+        if (list.size()!=0){
+            for (Evaluation e:list){
+                result.add(change(e));
+            }
+        }
+        return result;
+    }
+
+    public List<EvaluationDto> selectByMovieId(EvaluationFilter filter){
+        List<Evaluation> list = evaluationMapper.selectByMovieId(filter);
+        List<EvaluationDto> result = new ArrayList<>();
+        if (list.size()!=0){
+            for (Evaluation e:list){
+                result.add(change(e));
+            }
         }
         return result;
     }

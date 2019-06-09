@@ -22,8 +22,12 @@ public class CollectionService {
         List<Collection> list =  collectionMapper.selectByFilter(filter);
         List<Movie> resultList = new ArrayList<>();
         for (Collection c:list){
-            resultList.add(movieMapper.selectByPrimaryKey(c.getMovieid()));
+            resultList.add(movieMapper.selectByPrimaryKey(c.getMoveid()));
         }
         return resultList;
+    }
+
+    public Integer insert(Collection collection){
+        return collectionMapper.insertSelective(collection);
     }
 }

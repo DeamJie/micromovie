@@ -21,4 +21,6 @@ public interface EvaluationMapper {
     int updateByPrimaryKey(Evaluation record);
 
     List<Evaluation> selectByUserId(EvaluationFilter filter);
+
+    List<Evaluation> selectByMovieId(EvaluationFilter filter);
 }

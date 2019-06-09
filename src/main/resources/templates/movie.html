@@ -135,14 +135,6 @@
         <!--小屏幕导航按钮和logo-->
         <!--导航-->
         <div class="navbar-collapse collapse">
-            <form class="navbar-form navbar-left" role="search" style="margin-top:18px;">
-                <div class="form-group input-group">
-                    <input id="seachName" type="text" class="form-control" placeholder="请输入电影名！">
-                    <span class="input-group-btn">
-                        <a id="seach" class="btn btn-default" href="#"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</a>
-                    </span>
-                </div>
-            </form>
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <a class="curlink" href="index.html"><span class="glyphicon glyphicon-film"></span>电影</a>
@@ -184,62 +176,65 @@
             <div class="col-md-7">
                 <div class="panel panel-info">
                     <div class="panel-body" style="height:350px;">
-                        <table class="table">
-                            <tr>
-                                <td style="width:40%;color:#ccc;font-weight:bold;font-style:italic;">
-                                    <span class="glyphicon glyphicon-film" style="font-size: large;color: #0f74a8"></span>&nbsp;片名
-                                </td>
-                                <td th:text="${movie.name}"></td>
-                            </tr>
-                            <tr>
-                                <td style="color:#ccc;font-weight:bold;font-style:italic;">
-                                    <span class="glyphicon glyphicon-tag " style="font-size: large;color: #0f74a8"></span>&nbsp;标签
-                                </td>
-                                <td th:text="${label.name}"></td>
-                            </tr>
-                            <tr>
-                                <td style="color:#ccc;font-weight:bold;font-style:italic;">
-                                    <span class="glyphicon glyphicon-map-marker"style="font-size: large;color: #0f74a8"></span>&nbsp;地区
-                                </td>
-                                <td th:text="${movie.country}"></td>
-                            </tr>
-                            <tr>
-                                <td style="color:#ccc;font-weight:bold;font-style:italic;">
-                                    <span class="glyphicon glyphicon-star"style="font-size: large;color: #0f74a8"></span>&nbsp;豆瓣评分
-                                </td>
-                                <td th:text="${movie.score}"></td>
-                            </tr>
+                        <form id="movie-form">
+                            <table class="table">
+                                <input type="text" name="moveid" hidden="hidden" th:value="${movie.id}"></input>
+                                <tr>
+                                    <td style="width:40%;color:#ccc;font-weight:bold;font-style:italic;">
+                                        <span class="glyphicon glyphicon-film" style="font-size: large;color: #0f74a8"></span>&nbsp;片名
+                                    </td>
+                                    <td th:text="${movie.name}"></td>
+                                </tr>
+                                <tr>
+                                    <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                        <span class="glyphicon glyphicon-tag " style="font-size: large;color: #0f74a8"></span>&nbsp;标签
+                                    </td>
+                                    <td th:text="${label.name}"></td>
+                                </tr>
+                                <tr>
+                                    <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                        <span class="glyphicon glyphicon-map-marker"style="font-size: large;color: #0f74a8"></span>&nbsp;地区
+                                    </td>
+                                    <td th:text="${movie.country}"></td>
+                                </tr>
+                                <tr>
+                                    <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                        <span class="glyphicon glyphicon-star"style="font-size: large;color: #0f74a8"></span>&nbsp;豆瓣评分
+                                    </td>
+                                    <td th:text="${movie.score}"></td>
+                                </tr>
 
-                            <tr>
-                                <td style="color:#ccc;font-weight:bold;font-style:italic;">
-                                    <span class="glyphicon glyphicon-calendar"style="font-size: large;color: #0f74a8"></span>&nbsp;上映时间
-                                </td>
-                                <td th:text="${movie.time}"></td>
-                            </tr>
-                            <tr>
-                                <td style="color:#ccc;font-weight:bold;font-style:italic;">
-                                    <span class="glyphicon glyphicon-download-alt"style="font-size: large;color: #0f74a8"></span>&nbsp;我要下载
-                                </td>
-                                <td>
-                                    <a th:href="@{${movie.download}}">点击下载</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="color:#ccc;font-weight:bold;font-style:italic;">
-                                    <span class="glyphicon glyphicon-pencil"style="font-size: large;color: #0f74a8"></span>&nbsp;打分
-                                </td>
-                                <td>
-                                    <select class="selectpicker">
-                                        <option value ="1">1</option>
-                                        <option value ="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value ="1">5</option>
-                                    </select>
-                                    <button class="btn btn-xs" style="border-radius: 4px">提交评分</button>
-                                </td>
-                            </tr>
-                        </table>
+                                <tr>
+                                    <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                        <span class="glyphicon glyphicon-calendar"style="font-size: large;color: #0f74a8"></span>&nbsp;上映时间
+                                    </td>
+                                    <td th:text="${movie.time}"></td>
+                                </tr>
+                                <tr>
+                                    <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                        <span class="glyphicon glyphicon-download-alt"style="font-size: large;color: #0f74a8"></span>&nbsp;我要下载
+                                    </td>
+                                    <td>
+                                        <a th:href="@{${movie.download}}">点击下载</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                        <span class="glyphicon glyphicon-pencil"style="font-size: large;color: #0f74a8"></span>&nbsp;打分
+                                    </td>
+                                    <td>
+                                        <select name="score" class="selectpicker">
+                                            <option value ="1">1</option>
+                                            <option value ="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value ="1">5</option>
+                                        </select>
+                                        <button  type="button" onclick="s()" class="btn btn-xs" style="border-radius: 4px">提交评分</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
                     </div>
                 </div>
 
@@ -288,28 +283,29 @@
                                 <label>内容</label>
                                 <textarea id="evaluation" name="evaluation" class="col-md-12" style="height: 80px"></textarea>
                                 <input type="text" id="movieId" name="movieid" th:attr="value=${movie.id}" hidden="hidden"></input>
-                                <input type="text" id="userId" name="uid" th:attr="value=${movie.id}" hidden="hidden"></input>
+                                <input type="text" id="userId" name="uid" th:attr="value=${id}" hidden="hidden"></input>
                             </div>
                             <div class="col-xs-12" id="error_content"></div>
                         </div>
                         <a onclick="subEvaluation()" class="btn btn-success" id="btn-sub"><span class="glyphicon glyphicon-edit"></span>&nbsp;提交评论</a>
                         &nbsp;
-                        <a class="btn btn-danger" id="btn-col"><span class="glyphicon glyphicon-heart"></span>&nbsp;收藏电影</a>
+                        <a onclick="collection()" class="btn btn-danger" id="btn-col"><span class="glyphicon glyphicon-heart"></span>&nbsp;收藏电影</a>
                     </form>
                     <ul class="commentList">
-                        <li class="item cl">
+                        <li class="item cl" th:each="evaluation:${list}">
                             <div class="comment-main">
+                                <header class="comment-header">
                                     <div class="comment-meta">
-                                        <a>xiaoli</a>
+                                        <a class="comment-author" href="javascript:void(0)" th:text="${evaluation.name}"></a>
                                         评论于
-                                        <time title="2016-12-07 09:12:51" datetime="2016-12-07 09:12:51">2017-03-01 09:12:51</time>
+                                        <time title="2016-12-07 09:12:51" datetime="2016-12-07 09:12:51" th:text="${#dates.format(evaluation.date, 'yyyy-MM-dd')}"></time>
                                     </div>
+                                </header>
                                 <div class="comment-body">
-                                    <p>这电影真好看！</p>
+                                    <p th:text="${evaluation.evaluation}"></p>
                                 </div>
                             </div>
                         </li>
-
                     </ul>
                     <div class="col-md-12 text-center">
                         <nav aria-label="Page navigation">
@@ -358,8 +354,39 @@
 <script>
 </script>
 
-<script type="text/javascript">
+<script type="text/javascript" language='javascript' th:inline="javascript">
+    function collection() {
+        if ([[${session.user}]]==null){
+            showLoginModel();
+            return false;
+        }
+        var data = JSON.stringify($("#movie-form").serializeJSON());
+        var id = [[${id}]];
+        $.ajax({
+            url:"/collection/"+id,
+            type: "post",
+            contentType: false,
+            processData: false,
+            data:data,
+            contentType: 'application/json',
+            dataType: "json",
+            success:function (result) {
+                if (result.state) {
+                    successTip(" 收藏电影成功！");
+                }else {
+                    errorTip(result.info);
+                }
+            },
+            error:function () {
+                errorTip("收藏电影失败！");
+            }
+        });
+    }
     function subEvaluation() {
+        if ([[${session.user}]]==null){
+            showLoginModel();
+            return false;
+        }
         var evaluation = document.getElementById("evaluation").value;
         if(evaluation == ""||evaluation==null){
             alert("请输入评论");
@@ -375,16 +402,48 @@
             {
                 if(request.status==200)//判断是否成功,如果是200，就代表成功
                 {
-                    alert(request.responseText);
+                    successTip("评论成功！");
                 }
                 else
                 {
-                    alert("评论失败");
+                   errorTip("评论失败!");
                 }
             }
         }
     }
 </script>
+
+<script language='javascript' th:inline="javascript">
+    function s() {
+        if ([[${session.user}]]==null){
+            showLoginModel();
+        }
+        if ([[${session.user}]]!=null) {
+            var data = JSON.stringify($("#movie-form").serializeJSON());
+            var id = [[${id}]];
+            $.ajax({
+                url:"/score/"+id,
+                type: "post",
+                contentType: false,
+                processData: false,
+                data:data,
+                contentType: 'application/json',
+                dataType: "json",
+                success:function (result) {
+                    if (result.state) {
+                        successTip(" 保存评分成功！");
+                    }else {
+                        errorTip(result.info);
+                    }
+                },
+                error:function () {
+                    errorTip("保存评分失败！");
+                }
+            });
+        }
+    }
+</script>
+
 <script type="text/javascript">
 
     jQuery.validator.addMethod("isMobile", function(value, element) {
@@ -403,13 +462,6 @@
     });
 
 
-    document.getElementById("search").onclick = function (){
-        if(movieName ==""){
-            alert("请输入电影名称");
-        }else{
-            document.getElementById("search").setAttribute("href","/movie/search/"+movieName);
-        }
-    }
     function validateRegisterForm(){
         return $("#register_form").validate({
             errorElement: 'div',

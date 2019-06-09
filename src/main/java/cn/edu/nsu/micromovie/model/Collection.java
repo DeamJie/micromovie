@@ -5,7 +5,7 @@ public class Collection {
 
     private Integer uid;
 
-    private Integer movieid;
+    private Integer moveid;
 
     public Integer getCollectionid() {
         return collectionid;
@@ -23,11 +23,11 @@ public class Collection {
         this.uid = uid;
     }
 
-    public Integer getMovieid() {
-        return movieid;
+    public Integer getMoveid() {
+        return moveid;
     }
 
-    public void setMovieid(Integer movieid) {
-        this.movieid = movieid;
+    public void setMoveid(Integer moveid) {
+        this.moveid = moveid;
     }
 }

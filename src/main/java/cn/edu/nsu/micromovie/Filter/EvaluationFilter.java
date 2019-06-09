@@ -2,6 +2,7 @@ package cn.edu.nsu.micromovie.Filter;
 
 public class EvaluationFilter {
     private Integer useId;
+    private Integer movieid;
     private Integer rows;
     private Integer offset;
 
@@ -29,4 +30,11 @@ public class EvaluationFilter {
         this.offset = offset;
     }
 
+    public Integer getMovieid() {
+        return movieid;
+    }
+
+    public void setMovieid(Integer movieid) {
+        this.movieid = movieid;
+    }
 }
