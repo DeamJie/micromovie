@@ -20,4 +20,6 @@ public interface LabelMapper {
     int updateByPrimaryKey(Label record);
 
     List<Label> selectAll();
+
+    Label selectByName(String name);
 }

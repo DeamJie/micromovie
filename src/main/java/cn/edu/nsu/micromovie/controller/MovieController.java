@@ -2,6 +2,7 @@ package cn.edu.nsu.micromovie.controller;
 
 import cn.edu.nsu.micromovie.Filter.EvaluationFilter;
 import cn.edu.nsu.micromovie.Filter.MovieFilter;
+import cn.edu.nsu.micromovie.dao.MovieMapper;
 import cn.edu.nsu.micromovie.dto.EvaluationDto;
 import cn.edu.nsu.micromovie.model.Label;
 import cn.edu.nsu.micromovie.model.Movie;
@@ -9,12 +10,11 @@ import cn.edu.nsu.micromovie.model.User;
 import cn.edu.nsu.micromovie.service.EvaluationService;
 import cn.edu.nsu.micromovie.service.LabelService;
 import cn.edu.nsu.micromovie.service.MovieService;
+import cn.edu.nsu.micromovie.util.HandleResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -26,9 +26,30 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
     @Autowired
+    private MovieMapper movieMapper;
+    @Autowired
     private LabelService labelService;
     @Autowired
     private EvaluationService evaluationService;
+
+    @GetMapping("/all/{pageNum}")
+    public String allMovie(Model model,@PathVariable("pageNum") Integer pageNum){
+        MovieFilter filter = new MovieFilter();
+        Integer totalPageNum =movieService.selectByFilter(filter).size()/8;
+        if(pageNum-1<0){
+            pageNum=1;
+        }
+        if (pageNum>totalPageNum){
+            pageNum=totalPageNum;
+        }
+        filter.setOffset(8);
+        filter.setRows((pageNum-1)*8);
+        ArrayList<Movie> movieList = (ArrayList<Movie>)movieService.selectByFilter(filter);
+        model.addAttribute("movieList" , movieList);
+        model.addAttribute("pageNum",pageNum);
+        model.addAttribute("totalPage",totalPageNum);
+        return "admin/movie_list";
+    }
 
     @GetMapping("/list/{time}/{pageNum}")
     public String movieList(@PathVariable("time") String time, Model model,@PathVariable("pageNum") Integer pageNum){
@@ -103,5 +124,20 @@ public class MovieController {
         model.addAttribute("pageNum",1);
         model.addAttribute("totalPage",1);
         return "index";
+    }
+
+    @GetMapping("/add-view")
+    public String addView(){
+        return "admin/movie_add";
+    }
+
+    @PostMapping("/add")
+    @ResponseBody
+    public HandleResult addMovie(@RequestBody Movie movie){
+        if (movieMapper.insertSelective(movie) ==1){
+            return HandleResult.success();
+        }else {
+            return HandleResult.error("添加电影失败！");
+        }
     }
 }

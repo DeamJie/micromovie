@@ -19,4 +19,17 @@ public class LabelService {
     public Label selectById(Integer id){
         return labelMapper.selectByPrimaryKey(id);
     }
+
+    public int insert(Label label){
+        return labelMapper.insertSelective(label);
+    }
+
+    public boolean isExit(String name){
+        Label label = labelMapper.selectByName(name);
+        if (label == null){
+            return false;
+        }else {
+            return true;
+        }
+    }
 }

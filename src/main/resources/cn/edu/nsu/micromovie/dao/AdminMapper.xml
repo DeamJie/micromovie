@@ -79,4 +79,10 @@
       salt = #{salt,jdbcType=VARCHAR}
     where adminid = #{adminid,jdbcType=INTEGER}
   </update>
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="String">
+    select
+    <include refid="Base_Column_List" />
+    from admin
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
 </mapper>

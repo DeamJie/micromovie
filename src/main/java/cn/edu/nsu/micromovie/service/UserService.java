@@ -1,10 +1,13 @@
 package cn.edu.nsu.micromovie.service;
 
+import cn.edu.nsu.micromovie.Filter.UserFilter;
 import cn.edu.nsu.micromovie.dao.UserMapper;
 import cn.edu.nsu.micromovie.model.User;
 import cn.edu.nsu.micromovie.util.security.CryptUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -30,5 +33,9 @@ public class UserService {
         User user = userMapper.selectByMail(mail);
         if (user == null) return true;
         else return false;
+    }
+
+    public List<User> selectAll(UserFilter filter){
+        return userMapper.selectAll(filter);
     }
 }

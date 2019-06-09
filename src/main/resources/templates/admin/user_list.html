@@ -1,17 +1,22 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<!--suppress ALL -->
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1 , user-scalable=no">
     <title>微电影管理系统</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="shortcut icon" href="../static/base/images/logo.png">
-    <link rel="stylesheet" href="../static/admin/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/fonts/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../static/ionicons/css/ionicons.min.css">
-    <link rel="stylesheet" href="../static/admin/dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="../static/admin/dist/css/skins/_all-skins.min.css">
-    <link rel="stylesheet" type="text/css" href="../static/admin/plugins/datepicker/datepicker3.css">
+    <link rel="shortcut icon" th:href="@{/base/images/logo.png}">
+    <link rel="stylesheet" th:href="@{/admin/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/fonts/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/ionicons/css/ionicons.min.css}">
+    <link rel="stylesheet" th:href="@{/admin/dist/css/AdminLTE.min.css}">
+    <link rel="stylesheet" th:href="@{/admin/dist/css/skins/_all-skins.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/admin/plugins/datepicker/datepicker3.css}">
+    <link rel="stylesheet" th:href="@{/base/css/jquery.gritter.min.css}" type="text/css">
     <style>
         *{
             font-family:"Microsoft YaHei";
@@ -213,33 +218,24 @@
                             <table class="table table-hover">
                                 <tbody>
                                 <tr>
-                                    <th>编号</th>
                                     <th>昵称</th>
                                     <th>邮箱</th>
                                     <th>手机</th>
-                                    <th>头像</th>
-                                    <th>状态</th>
-                                    <th>注册时间</th>
+                                    <th>是否冻结</th>
                                     <th>操作事项</th>
                                 </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>拓荒者</td>
-                                    <td>1780316635@qq.com</td>
-                                    <td>13700632835</td>
+                                <tr th:each="user:${list}">
+                                    <td th:text="${user.name}"></td>
+                                    <td th:text="${user.mail}"></td>
+                                    <td th:text="${user.phonenumber}"></td>
+                                    <td th:text="${user.freeze}"></td>
+                                    <td></td>
                                     <td>
-                                        <img data-src="holder.js/50x50" class="img-responsive center-block" alt="">
-                                    </td>
-                                    <td>正常/冻结</td>
-                                    <td>2017-06-01 12:00:00</td>
-                                    <td>
-                                        <a class="label label-success" href="user_view.html">查看</a>
                                         &nbsp;
                                         <a class="label label-info">解冻</a>
                                         &nbsp;
                                         <a class="label label-warning">冻结</a>
                                         &nbsp;
-                                        <a class="label label-danger">删除</a>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -247,13 +243,11 @@
                         </div>
                         <div class="box-footer clearfix">
                             <ul class="pagination pagination-sm no-margin pull-right">
-                                <li><a href="#">首页</a></li>
-                                <li><a href="#">上一页</a></li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">下一页</a></li>
-                                <li><a href="#">尾页</a></li>
+                                <li><a href="/user/view/1">首页</a></li>
+                                <li><a th:href="@{'/user/view/'+${pageNum-1}}">上一页</a></li>
+                                <li><a href="javascript:void(0)" th:text="${pageNum}"></a></li>
+                                <li><a th:href="@{'/user/view/'+${pageNum+1}}">下一页</a></li>
+                                <li><a th:href="@{'/user/view/'+${totalPageNum}}">尾页</a></li>
                             </ul>
                         </div>
                     </div>
@@ -270,15 +264,21 @@
     </footer>
     <div class="control-sidebar-bg"></div>
 </div>
-<script src="../static/admin/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-<script src="../static/admin/bootstrap/js/bootstrap.min.js"></script>
-<script src="../static/admin/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-<script src="../static/admin/plugins/fastclick/fastclick.js"></script>
-<script src="../static/admin/dist/js/app.min.js"></script>
-<script src="../static/admin/dist/js/demo.js"></script>
-<script src="//cdn.bootcss.com/holder/2.9.4/holder.min.js"></script>
-<script src="../static/admin/plugins/datepicker/bootstrap-datepicker.js"></script>
-<script src="../static/admin/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js" charset="UTF-8"></script>
+<script th:src="@{/admin/plugins/jQuery/jQuery-2.2.0.min.js}"></script>
+<script th:src="@{/admin/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/admin/plugins/slimScroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/admin/plugins/fastclick/fastclick.js}"></script>
+<script th:src="@{/admin/dist/js/app.min.js}"></script>
+<script th:src="@{/admin/dist/js/demo.js}"></script>
+<script th:src="@{//cdn.bootcss.com/holder/2.9.4/holder.min.js}"></script>
+<script th:src="@{/admin/plugins/datepicker/bootstrap-datepicker.js}"></script>
+<script th：src="@{/admin/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js}" charset="UTF-8"></script>
+<script th:src="@{/admin/plugins/iCheck/icheck.min.js}"></script>
+<script th:src="@{/base/js/jquery.singlePageNav.min.js}"></script>
+<script th:src="@{/base/js/jquery.serializejson.min.js}"></script>
+<script th:src="@{/base/js/jquery.gritter.min.js}"></script>
+<script th:src="@{//cdn.bootcss.com/holder/2.9.4/holder.min.js}"></script>
+<script th:src="@{/base/js/jquery.validate.min.js}"></script>
 
 
 </body>

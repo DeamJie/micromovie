@@ -60,4 +60,10 @@
     <include refid="Base_Column_List"/>
     from label
   </select>
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="String">
+    select
+    <include refid="Base_Column_List"/>
+    from label
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
 </mapper>

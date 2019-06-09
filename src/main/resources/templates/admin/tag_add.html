@@ -1,17 +1,22 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<!--suppress ALL -->
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1 , user-scalable=no">
     <title>微电影管理系统</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="shortcut icon" href="../static/base/images/logo.png">
-    <link rel="stylesheet" href="../static/admin/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/fonts/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../static/ionicons/css/ionicons.min.css">
-    <link rel="stylesheet" href="../static/admin/dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="../static/admin/dist/css/skins/_all-skins.min.css">
-    <link rel="stylesheet" type="text/css" href="../static/admin/plugins/datepicker/datepicker3.css">
+    <link rel="shortcut icon" th:href="@{/base/images/logo.png}">
+    <link rel="stylesheet" th:href="@{/admin/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/fonts/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/ionicons/css/ionicons.min.css}">
+    <link rel="stylesheet" th:href="@{/admin/dist/css/AdminLTE.min.css}">
+    <link rel="stylesheet" th:href="@{/admin/dist/css/skins/_all-skins.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/admin/plugins/datepicker/datepicker3.css}">
+    <link rel="stylesheet" th:href="@{/base/css/jquery.gritter.min.css}" type="text/css">
     <style>
         *{
             font-family:"Microsoft YaHei";
@@ -198,15 +203,15 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">添加标签</h3>
                         </div>
-                        <form role="form">
+                        <form role="form" id="tag_add">
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="input_name">标签名称</label>
-                                    <input type="text" class="form-control" id="input_name" placeholder="请输入标签名称！">
+                                    <input name="name" type="text" class="form-control" id="input_name" placeholder="请输入标签名称！">
                                 </div>
                             </div>
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-primary">添加</button>
+                                <button onclick="add()" type="button" class="btn btn-primary">添加</button>
                             </div>
                         </form>
                     </div>
@@ -223,16 +228,95 @@
     </footer>
     <div class="control-sidebar-bg"></div>
 </div>
-<script src="../static/admin/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-<script src="../static/admin/bootstrap/js/bootstrap.min.js"></script>
-<script src="../static/admin/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-<script src="../static/admin/plugins/fastclick/fastclick.js"></script>
-<script src="../static/admin/dist/js/app.min.js"></script>
-<script src="../static/admin/dist/js/demo.js"></script>
-<script src="//cdn.bootcss.com/holder/2.9.4/holder.min.js"></script>
-<script src="../static/admin/plugins/datepicker/bootstrap-datepicker.js"></script>
-<script src="../static/admin/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js" charset="UTF-8"></script>
+<script th:src="@{/admin/plugins/jQuery/jQuery-2.2.0.min.js}"></script>
+<script th:src="@{/admin/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/admin/plugins/slimScroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/admin/plugins/fastclick/fastclick.js}"></script>
+<script th:src="@{/admin/dist/js/app.min.js}"></script>
+<script th:src="@{/admin/dist/js/demo.js}"></script>
+<script th:src="@{//cdn.bootcss.com/holder/2.9.4/holder.min.js}"></script>
+<script th:src="@{/admin/plugins/datepicker/bootstrap-datepicker.js}"></script>
+<script th：src="@{/admin/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js}" charset="UTF-8"></script>
+<script th:src="@{/admin/plugins/iCheck/icheck.min.js}"></script>
+<script th:src="@{/base/js/jquery.singlePageNav.min.js}"></script>
+<script th:src="@{/base/js/jquery.serializejson.min.js}"></script>
+<script th:src="@{/base/js/jquery.gritter.min.js}"></script>
+<script th:src="@{//cdn.bootcss.com/holder/2.9.4/holder.min.js}"></script>
+<script th:src="@{/base/js/jquery.validate.min.js}"></script>
 
+<script type="text/javascript">
+    $(document).ready(function(){
+        validateLoginForm();
+    });
+
+    function validateLoginForm(){
+        return $("#tag_add").validate({
+            errorElement: 'div',
+            errorClass: 'help-block',
+            focusInvalid: false,
+            debug: true,
+            rules: {
+                name:{
+                    required:true,
+                    remote:{
+                        url:"/label/isExit",
+                        type:"post"
+                    }
+                }
+            },
+            messages:{
+                name:{
+                    required:"请输入标签名",
+                    remote:"已存在此标签"
+                }
+            },
+            highlight: function (e) {
+                $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+            }
+        });
+    }
+
+    function add() {
+        if (validateLoginForm().form()){
+            var data = JSON.stringify($("#tag_add").serializeJSON());
+            $.ajax({
+                url:"/label/add",
+                type: "post",
+                contentType: false,
+                processData: false,
+                data:data,
+                contentType: 'application/json',
+                dataType: "json",
+                success:function (result) {
+                    if (result.state) {
+                        successTip("添加成功！");
+                    }else {
+                        errorTip(result.info);
+                    }
+                },
+                error:function () {
+                    errorTip("添加失败！");
+                }
+            });
+        }
+    }
+
+    function successTip(msg){
+        $.gritter.add({
+            title: '提示信息',
+            text: msg,
+            class_name: 'gritter-success gritter-light'
+        });
+    }
+
+    function errorTip(msg){
+        $.gritter.add({
+            title: '提示信息',
+            text: msg,
+            class_name: 'gritter-error gritter-light'
+        });
+    }
+</script>
 
 </body>
 </html>

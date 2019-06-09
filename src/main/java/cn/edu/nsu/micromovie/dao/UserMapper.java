@@ -1,7 +1,10 @@
 package cn.edu.nsu.micromovie.dao;
 
+import cn.edu.nsu.micromovie.Filter.UserFilter;
 import cn.edu.nsu.micromovie.model.User;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface UserMapper {
@@ -20,4 +23,6 @@ public interface UserMapper {
     User selectByName(String name);
 
     User selectByMail(String mail);
+
+    List<User> selectAll(UserFilter filter);
 }

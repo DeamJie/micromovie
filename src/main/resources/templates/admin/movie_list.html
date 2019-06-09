@@ -1,17 +1,22 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<!--suppress ALL -->
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1 , user-scalable=no">
     <title>微电影管理系统</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="shortcut icon" href="../static/base/images/logo.png">
-    <link rel="stylesheet" href="../static/admin/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/fonts/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../static/ionicons/css/ionicons.min.css">
-    <link rel="stylesheet" href="../static/admin/dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="../static/admin/dist/css/skins/_all-skins.min.css">
-    <link rel="stylesheet" type="text/css" href="../static/admin/plugins/datepicker/datepicker3.css">
+    <link rel="shortcut icon" th:href="@{/base/images/logo.png}">
+    <link rel="stylesheet" th:href="@{/admin/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/fonts/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/ionicons/css/ionicons.min.css}">
+    <link rel="stylesheet" th:href="@{/admin/dist/css/AdminLTE.min.css}">
+    <link rel="stylesheet" th:href="@{/admin/dist/css/skins/_all-skins.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/admin/plugins/datepicker/datepicker3.css}">
+    <link rel="stylesheet" th:href="@{/base/css/jquery.gritter.min.css}" type="text/css">
     <style>
         *{
             font-family:"Microsoft YaHei";
@@ -213,30 +218,18 @@
                             <table class="table table-hover">
                                 <tbody>
                                 <tr>
-                                    <th>编号</th>
                                     <th>片名</th>
-                                    <th>片长</th>
-                                    <th>标签</th>
-                                    <th>地区</th>
-                                    <th>星级</th>
-                                    <th>播放数量</th>
-                                    <th>评论数量</th>
                                     <th>上映时间</th>
+                                    <th>地区</th>
+                                    <th>评分</th>
                                     <th>操作事项</th>
                                 </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>环太平洋</td>
-                                    <td>5分钟</td>
-                                    <td>科幻</td>
-                                    <td>美国</td>
-                                    <td>5</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>2017-01-01</td>
+                                <tr th:each="movie:${movieList}">
+                                    <td th:text="${movie.name}"></td>
+                                    <td th:text="${movie.time}"></td>
+                                    <td th:text="${movie.country}">科幻</td>
+                                    <td th:text="${movie.score}">美国</td>
                                     <td>
-                                        <a class="label label-success">编辑</a>
-                                        &nbsp;
                                         <a class="label label-danger">删除</a>
                                     </td>
                                 </tr>
@@ -245,13 +238,11 @@
                         </div>
                         <div class="box-footer clearfix">
                             <ul class="pagination pagination-sm no-margin pull-right">
-                                <li><a href="#">首页</a></li>
-                                <li><a href="#">上一页</a></li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">下一页</a></li>
-                                <li><a href="#">尾页</a></li>
+                                <li><a href="/movie/all/1">首页</a></li>
+                                <li><a th:href="@{'/movie/all/'+${pageNum-1}}">上一页</a></li>
+                                <li><a href="javascript:void(0)" th:text="${pageNum}">1</a></li>
+                                <li><a th:href="@{'/movie/all/'+${pageNum+1}}">下一页</a></li>
+                                <li><a th:href="@{'/movie/all/'+${totalPage}}">尾页</a></li>
                             </ul>
                         </div>
                     </div>
@@ -268,15 +259,21 @@
     </footer>
     <div class="control-sidebar-bg"></div>
 </div>
-<script src="../static/admin/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-<script src="../static/admin/bootstrap/js/bootstrap.min.js"></script>
-<script src="../static/admin/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-<script src="../static/admin/plugins/fastclick/fastclick.js"></script>
-<script src="../static/admin/dist/js/app.min.js"></script>
-<script src="../static/admin/dist/js/demo.js"></script>
-<script src="//cdn.bootcss.com/holder/2.9.4/holder.min.js"></script>
-<script src="../static/admin/plugins/datepicker/bootstrap-datepicker.js"></script>
-<script src="../static/admin/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js" charset="UTF-8"></script>
+<script th:src="@{/admin/plugins/jQuery/jQuery-2.2.0.min.js}"></script>
+<script th:src="@{/admin/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/admin/plugins/slimScroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/admin/plugins/fastclick/fastclick.js}"></script>
+<script th:src="@{/admin/dist/js/app.min.js}"></script>
+<script th:src="@{/admin/dist/js/demo.js}"></script>
+<script th:src="@{//cdn.bootcss.com/holder/2.9.4/holder.min.js}"></script>
+<script th:src="@{/admin/plugins/datepicker/bootstrap-datepicker.js}"></script>
+<script th：src="@{/admin/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js}" charset="UTF-8"></script>
+<script th:src="@{/admin/plugins/iCheck/icheck.min.js}"></script>
+<script th:src="@{/base/js/jquery.singlePageNav.min.js}"></script>
+<script th:src="@{/base/js/jquery.serializejson.min.js}"></script>
+<script th:src="@{/base/js/jquery.gritter.min.js}"></script>
+<script th:src="@{//cdn.bootcss.com/holder/2.9.4/holder.min.js}"></script>
+<script th:src="@{/base/js/jquery.validate.min.js}"></script>
 
 
 </body>

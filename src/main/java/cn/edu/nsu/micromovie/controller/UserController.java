@@ -1,5 +1,6 @@
 package cn.edu.nsu.micromovie.controller;
 
+import cn.edu.nsu.micromovie.Filter.UserFilter;
 import cn.edu.nsu.micromovie.model.User;
 import cn.edu.nsu.micromovie.service.UserService;
 import cn.edu.nsu.micromovie.util.HandleResult;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.List;
 
 @Controller
 @RequestMapping("user")
@@ -109,5 +111,27 @@ public class UserController {
             return false;
         }
         return userService.isExit(mailString);
+    }
+
+    @GetMapping("/view/{pageNum}")
+    public String userView(@PathVariable("pageNum") Integer pageNum ,Model model){
+        UserFilter filter = new UserFilter();
+        int totalPageNum = userService.selectAll(filter).size()/8;
+        if (totalPageNum == 0){
+            totalPageNum = 1;
+        }
+        if (pageNum-1<0){
+            pageNum = 1;
+        }
+        if (pageNum>totalPageNum){
+            pageNum = totalPageNum;
+        }
+        filter.setRows((pageNum-1)*8);
+        filter.setOffset(8);
+        List<User> list = userService.selectAll(filter);
+        model.addAttribute("pageNum",pageNum);
+        model.addAttribute("totalPage",totalPageNum);
+        model.addAttribute("list",list);
+        return "admin/user_list";
     }
 }

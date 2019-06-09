@@ -150,4 +150,13 @@
     from user
     where mail = #{mail,jdbcType=VARCHAR}
   </select>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="cn.edu.nsu.micromovie.Filter.UserFilter">
+    select
+    <include refid="Base_Column_List"/>
+    from user
+    <if test="rows != null and offset != null">
+      limit #{rows,jdbcType=INTEGER},
+      #{offset,jdbcType=INTEGER}
+    </if>
+  </select>
 </mapper>

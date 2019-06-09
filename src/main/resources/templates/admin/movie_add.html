@@ -1,18 +1,22 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<!--suppress ALL -->
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1 , user-scalable=no">
     <title>微电影管理系统</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="shortcut icon" href="../static/base/images/logo.png">
-    <link rel="stylesheet" href="../static/admin/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/fonts/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../static/ionicons/css/ionicons.min.css">
-    <link rel="stylesheet" href="../static/admin/dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="../static/admin/dist/css/skins/_all-skins.min.css">
-    <link rel="stylesheet" type="text/css" href="../static/admin/plugins/datepicker/datepicker3.css">
-    <link rel="stylesheet" type="text/css" href="../static/jwplayer/skins/stormtrooper.css">
+    <link rel="shortcut icon" th:href="@{/base/images/logo.png}">
+    <link rel="stylesheet" th:href="@{/admin/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/fonts/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/ionicons/css/ionicons.min.css}">
+    <link rel="stylesheet" th:href="@{/admin/dist/css/AdminLTE.min.css}">
+    <link rel="stylesheet" th:href="@{/admin/dist/css/skins/_all-skins.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/admin/plugins/datepicker/datepicker3.css}">
+    <link rel="stylesheet" th:href="@{/base/css/jquery.gritter.min.css}" type="text/css">
     <style>
         *{
             font-family:"Microsoft YaHei";
@@ -199,42 +203,19 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">添加电影</h3>
                         </div>
-                        <form role="form">
+                        <form role="form" id="add-movie">
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="input_title">片名</label>
-                                    <input type="text" class="form-control" id="input_title" placeholder="请输入片名！">
-                                </div>
-                                <div class="form-group">
-                                    <label for="input_url">文件</label>
-                                    <input type="file" id="input_url">
-                                    <div style="margin-top:5px;">
-                                        <div id="moviecontainer"></div>
-                                    </div>
+                                    <input name="name" type="text" class="form-control" id="input_title" placeholder="请输入片名！">
                                 </div>
                                 <div class="form-group">
                                     <label for="input_info">介绍</label>
-                                    <textarea class="form-control" rows="10" id="input_info"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="input_logo">封面</label>
-                                    <input type="file" id="input_logo">
-                                    <img data-src="holder.js/262x166" style="margin-top:5px;" class="img-responsive"
-                                         alt="">
-                                </div>
-                                <div class="form-group">
-                                    <label for="input_star">星级</label>
-                                    <select class="form-control" id="input_star">
-                                        <option value="1">1星</option>
-                                        <option value="2">2星</option>
-                                        <option value="3">3星</option>
-                                        <option value="4">4星</option>
-                                        <option value="5">5星</option>
-                                    </select>
+                                    <textarea name="intro" class="form-control" rows="5" id="input_info"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="input_tag_id">标签</label>
-                                    <select class="form-control" id="input_tag_id">
+                                    <select name="labelid" class="form-control" id="input_tag_id">
                                         <option value="1">科幻</option>
                                         <option value="2">冒险</option>
                                         <option value="3">爱情</option>
@@ -244,20 +225,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="input_area">地区</label>
-                                    <input type="text" class="form-control" id="input_area" placeholder="请输入地区！">
-                                </div>
-                                <div class="form-group">
-                                    <label for="input_length">片长</label>
-                                    <input type="text" class="form-control" id="input_length" placeholder="请输入片长！">
-                                </div>
-                                <div class="form-group">
-                                    <label for="input_release_time">上映时间</label>
-                                    <input type="text" class="form-control" id="input_release_time"
-                                           placeholder="请选择上映时间！">
+                                    <input name="country" type="text" class="form-control" id="input_area" placeholder="请输入地区！">
                                 </div>
                             </div>
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-primary">添加</button>
+                                <button onclick="add()" type="button" class="btn btn-primary">添加</button>
                             </div>
                         </form>
                     </div>
@@ -274,56 +246,106 @@
     </footer>
     <div class="control-sidebar-bg"></div>
 </div>
-<script src="../static/admin/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-<script src="../static/admin/bootstrap/js/bootstrap.min.js"></script>
-<script src="../static/admin/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-<script src="../static/admin/plugins/fastclick/fastclick.js"></script>
-<script src="../static/admin/dist/js/app.min.js"></script>
-<script src="../static/admin/dist/js/demo.js"></script>
-<script src="//cdn.bootcss.com/holder/2.9.4/holder.min.js"></script>
-<script src="../static/admin/plugins/datepicker/bootstrap-datepicker.js"></script>
-<script src="../static/admin/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js" charset="UTF-8"></script>
-<!--播放页面-->
-<script src="../static/jwplayer/jwplayer.js"></script>
+<script th:src="@{/admin/plugins/jQuery/jQuery-2.2.0.min.js}"></script>
+<script th:src="@{/admin/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/admin/plugins/slimScroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/admin/plugins/fastclick/fastclick.js}"></script>
+<script th:src="@{/admin/dist/js/app.min.js}"></script>
+<script th:src="@{/admin/dist/js/demo.js}"></script>
+<script th:src="@{//cdn.bootcss.com/holder/2.9.4/holder.min.js}"></script>
+<script th:src="@{/admin/plugins/datepicker/bootstrap-datepicker.js}"></script>
+<script th：src="@{/admin/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js}" charset="UTF-8"></script>
+<script th:src="@{/admin/plugins/iCheck/icheck.min.js}"></script>
+<script th:src="@{/base/js/jquery.singlePageNav.min.js}"></script>
+<script th:src="@{/base/js/jquery.serializejson.min.js}"></script>
+<script th:src="@{/base/js/jquery.gritter.min.js}"></script>
+<script th:src="@{//cdn.bootcss.com/holder/2.9.4/holder.min.js}"></script>
+<script th:src="@{/base/js/jquery.validate.min.js}"></script>
 <script type="text/javascript">
-    jwplayer.key = "P9VTqT/X6TSP4gi/hy1wy23BivBhjdzVjMeOaQ==";
-
-</script>
-<script type="text/javascript">
-    jwplayer("moviecontainer").setup({
-        flashplayer: "../static/jwplayer/jwplayer.flash.swf",
-        playlist: [{
-            file: "../static/video/htpy.mp4",
-            title: "环太平洋"
-        }],
-        modes: [{
-            type: "html5"
-        }, {
-            type: "flash",
-            src: "../static/jwplayer/jwplayer.flash.swf"
-        }, {
-            type: "download"
-        }],
-        skin: {
-            name: "vapor"
-        },
-        "playlist.position": "left",
-        "playlist.size": 200,
-        height: 250,
-        width: 387,
-    });
-
-</script>
-<script>
     $(document).ready(function(){
-        $('#input_release_time').datepicker({
-            autoclose: true,
-            format: 'yyyy-mm-dd',
-            language: 'zh-CN',
-        });
+        validateLoginForm();
     });
 
-</script>
+    function validateLoginForm(){
+        return $("#add-movie").validate({
+            errorElement: 'div',
+            errorClass: 'help-block',
+            focusInvalid: false,
+            debug: true,
+            rules: {
+                name:{
+                    required:true
+                },
+                intro:{
+                    required:true
+                },
+                labelid:{
+                    required:true
+                },
+                country:{
+                    required:true
+                }
+            },
+            messages:{
+                name:{
+                    required:"请输入电影名",
+                },
+                intro:{
+                    required:"请输入电影简介"
+                },
+                labelid:{
+                    required:true
+                },
+                country:{
+                    required:"请输入电影地区"
+                }
+            },
+            highlight: function (e) {
+                $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+            }
+        });
+    }
 
+    function add() {
+        if (validateLoginForm().form()){
+            var data = JSON.stringify($("#add-movie").serializeJSON());
+            $.ajax({
+                url:"/movie/add",
+                type: "post",
+                contentType: false,
+                processData: false,
+                data:data,
+                contentType: 'application/json',
+                dataType: "json",
+                success:function (result) {
+                    if (result.state) {
+                        successTip("添加成功！");
+                    }else {
+                        errorTip(result.info);
+                    }
+                },
+                error:function () {
+                    errorTip("添加失败！");
+                }
+            });
+        }
+    }
+
+    function successTip(msg){
+        $.gritter.add({
+            title: '提示信息',
+            text: msg,
+            class_name: 'gritter-success gritter-light'
+        });
+    }
+
+    function errorTip(msg){
+        $.gritter.add({
+            title: '提示信息',
+            text: msg,
+            class_name: 'gritter-error gritter-light'
+        });
+    }
+</script>
 </body>
 </html>
