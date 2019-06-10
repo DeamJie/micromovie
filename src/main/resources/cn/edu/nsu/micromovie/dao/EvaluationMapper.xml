@@ -108,4 +108,12 @@
       limit #{rows,jdbcType=INTEGER},#{offset,jdbcType=INTEGER}
     </if>
   </select>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="cn.edu.nsu.micromovie.Filter.EvaluationFilter">
+    select
+    <include refid="Base_Column_List"/>
+    from evaluation
+    <if test="rows!=null and offset!=null">
+      limit #{rows,jdbcType=INTEGER},#{offset,jdbcType=INTEGER}
+    </if>
+  </select>
 </mapper>

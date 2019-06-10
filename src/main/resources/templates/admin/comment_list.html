@@ -215,48 +215,32 @@
                             </div>
                         </div>
                         <div class="box-body box-comments">
-                            <div class="box-comment">
-                                <img class="img-circle img-sm"
-                                     src="../static/admin/dist/img/user3-128x128.jpg" alt="User Image">
+                            <div class="box-comment" th:each="evaluation:${list}">
                                 <div class="comment-text">
-                                    <span class="username">
-                                        小美
-                                        <span class="text-muted pull-right">
-                                            <i class="fa fa-calendar" aria-hidden="true"></i>
-                                            &nbsp;
-                                            2017-01-01 12:00:00
-                                        </span>
-                                    </span>
-                                    关于电影<a>《环太平洋》</a>的评论：xxx
-                                    <br><a class="label label-danger pull-right">删除</a>
-                                </div>
-                            </div>
-                            <div class="box-comment">
-                                <img class="img-circle img-sm"
-                                     src="../static/admin/dist/img/user5-128x128.jpg" alt="User Image">
-                                <div class="comment-text">
-                                    <span class="username">
+                                    <span class="username" th:text="${evaluation.name}">
                                         小丽
-                                        <span class="text-muted pull-right">
+                                        <span class="text-muted pull-right" th:text="${evaluation.date}">
                                             <i class="fa fa-calendar" aria-hidden="true"></i>
-                                            &nbsp;
-                                            2017-01-01 12:00:00
                                         </span>
                                     </span>
-                                    关于电影<a>《环太平洋》</a>的评论：xxx
+                                    关于电影《
+                                    <span th:text="${evaluation.movieName}">
+                                    </span>
+                                    》的评论：
+                                    <span th:text="${evaluation.evaluation}">
+
+                                    </span>
                                     <br><a class="label label-danger pull-right">删除</a>
                                 </div>
                             </div>
                         </div>
                         <div class="box-footer clearfix">
                             <ul class="pagination pagination-sm no-margin pull-right">
-                                <li><a href="#">首页</a></li>
-                                <li><a href="#">上一页</a></li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">下一页</a></li>
-                                <li><a href="#">尾页</a></li>
+                                <li><a href="/evaluation/all//1">首页</a></li>
+                                <li><a th:href="@{'/evaluation/all/'+${pageNum-1}}">上一页</a></li>
+                                <li><a href="javascript:void(0)" th:text="${pageNum}"></a></li>
+                                <li><a th:href="@{'/evaluation/all/'+${pageNum+1}}">下一页</a></li>
+                                <li><a th:href="@{'/evaluation/all/'+${totalPageNum}}">尾页</a></li>
                             </ul>
                         </div>
                     </div>

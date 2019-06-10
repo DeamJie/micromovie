@@ -55,4 +55,15 @@ public class EvaluationService {
         evaluationDto.setDate(evaluation.getDate());
         return evaluationDto;
     }
+
+    public List<EvaluationDto> selectAll(EvaluationFilter filter){
+        List<Evaluation> list = evaluationMapper.selectAll(filter);
+        List<EvaluationDto> result = new ArrayList<>();
+        if (list.size()!=0){
+            for (Evaluation e:list){
+                result.add(change(e));
+            }
+        }
+        return result;
+    }
 }

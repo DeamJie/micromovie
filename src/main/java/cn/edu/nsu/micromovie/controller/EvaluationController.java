@@ -42,10 +42,32 @@ public class EvaluationController {
             pageNum = 1;
         }
         filter.setUseId(userId);
-        filter.setRows(pageNum-1);
+        filter.setRows((pageNum-1)*4);
         filter.setOffset(4);
         List<EvaluationDto> list = evaluationService.selectByUserID(filter);
         model.addAttribute("list",list);
         return "/comments";
+    }
+
+    @GetMapping("/all/{pageNum}")
+    public String allEvaluation(@PathVariable("pageNum") Integer pageNum , Model model){
+        EvaluationFilter filter = new EvaluationFilter();
+        Integer totalPageNum =evaluationService.selectAll(filter).size()/4;
+        if (totalPageNum == 0){
+            totalPageNum=1;
+        }
+        if (pageNum-1!=0){
+            pageNum = 1;
+        }
+        if (pageNum>totalPageNum){
+            pageNum=totalPageNum;
+        }
+        filter.setRows((pageNum-1)*4);
+        filter.setOffset(4);
+        List<EvaluationDto> list = evaluationService.selectAll(filter);
+        model.addAttribute("list",list);
+        model.addAttribute("pageNum",pageNum);
+        model.addAttribute("totalPageNum",totalPageNum);
+        return "admin/comment_list";
     }
 }

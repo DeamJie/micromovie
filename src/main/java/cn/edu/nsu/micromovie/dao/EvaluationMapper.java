@@ -23,4 +23,6 @@ public interface EvaluationMapper {
     List<Evaluation> selectByUserId(EvaluationFilter filter);
 
     List<Evaluation> selectByMovieId(EvaluationFilter filter);
+
+    List<Evaluation> selectAll(EvaluationFilter filter);
 }
