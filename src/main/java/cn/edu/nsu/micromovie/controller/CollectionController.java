@@ -37,7 +37,7 @@ public class CollectionController {
             if (scoreLabel!=null){
                 temp.getPreference().setScoreLabelId(scoreLabel);
             }
-            if (collection!=null){
+            if (collectionLabel!=null){
                 temp.getPreference().setConnectionLabelId(collectionLabel);
             }
             session.setAttribute("user",temp);

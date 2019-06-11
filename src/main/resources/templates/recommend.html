@@ -1,4 +1,5 @@
 <!doctype html>
+<!--suppress ALL -->
 <html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
@@ -7,10 +8,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1 , user-scalable=no">
     <title>微电影</title>
-    <link rel="shortcut icon" href="../static/base/images/logo.png">
-    <link rel="stylesheet" href="../static/base/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/base/css/bootstrap-movie.css">
-    <link rel="stylesheet" href="../static/base/css/animate.css">
+    <link rel="shortcut icon" th:href="@{/base/images/logo.png}">
+    <link rel="stylesheet" th:href="@{/base/css/bootstrap.min.css}"rel="stylesheet" type="text/css">
+    <link rel="stylesheet" th:href="@{/base/css/bootstrap-movie.css}"rel="stylesheet" type="text/css">
+    <link rel="stylesheet" th:href="@{/base/css/animate.css}"rel="stylesheet" type="text/css">
+    <link rel="stylesheet" th:href="@{/base/css/jquery.gritter.min.css}" type="text/css">
     <style>
         .navbar-brand>img {
             display: inline;
@@ -112,6 +114,7 @@
     </div>
     <!-- /.modal -->
 </div>
+
 <!--导航-->
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -123,7 +126,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a href="/movie/list/2018/1" class="navbar-brand" style="width:250px;">
-                <img src="../static/base/images/logo.png" style="height:30px;">&nbsp;微电影
+                <img th:src="@{/base/images/logo.png}" style="height:30px;">&nbsp;微电影
             </a>
         </div>
         <!--小屏幕导航按钮和logo-->
@@ -131,9 +134,9 @@
         <div class="navbar-collapse collapse">
             <form class="navbar-form navbar-left" role="search" style="margin-top:18px;">
                 <div class="form-group input-group">
-                    <input type="text" class="form-control" placeholder="请输入电影名！">
+                    <input  id="searchName" type="text" class="form-control" placeholder="请输入电影名！">
                     <span class="input-group-btn">
-                        <a class="btn btn-default" href="search.html"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</a>
+                        <a  id="search" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</a>
                     </span>
                 </div>
             </form>
@@ -161,14 +164,104 @@
 </nav>
 <!--导航-->
 <!--内容-->
-<div class="container" style="margin-top:76px">
-</div><!--底部-->
-<script src="../static/base/js/jquery.min.js"></script>
-<script src="../static/base/js/bootstrap.min.js"></script>
-<script src="../static/base/js/jquery.singlePageNav.min.js"></script>
-<script src="../static/base/js/wow.min.js"></script>
-<script src="../static/lazyload/jquery.lazyload.min.js"></script>
-<script src="//cdn.bootcss.com/holder/2.9.4/holder.min.js"></script>
+<!--内容-->
+<!--热门电影-->
+<section id="hotmovie" style="margin-top:50px">
+    
+</section>
+<!--热门电影-->
+<!--电影列表-->
+<section id="movielist">
+    <div class="container">
+        <div class="row wow fadeIn" data-wow-delay="0.6s">
+            <div class="col-md-12 table-responsive">
+                <table class="table text-left table-bordered" id="movietags">
+                    <tr>
+                        <td style="width:10%;">电影标签</td>
+                        <td style="width:90%;">
+                            <a class="label label-info" th:each="label:${lableList}" th:href="@{'/movie/type/'+${label.labelid}+'/1'}"><span class="glyphicon glyphicon-tag" th:text="${label.name}"></span>&nbsp;</a>
+                            &nbsp;
+                    </tr>
+                    
+                    <tr>
+                        <td>上映时间</td>
+                        <td>
+                            <a href="/movie/list/2018/1" class="label label-default"><span class="glyphicon glyphicon-time">最近</span></a>
+                            <a href="/movie/list/2017/1" class="label label-default"><span class="glyphicon glyphicon-time">2017</span></a>
+                            <a href="/movie/list/2016/1" class="label label-default"><span class="glyphicon glyphicon-time">2016</span></a>
+                            <a href="/movie/list/2015/1" class="label label-default"><span class="glyphicon glyphicon-time">2015</span></a>
+                            <a href="/movie/list/2014/1" class="label label-default"><span class="glyphicon glyphicon-time">更早</span></a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-3"th:each="movie:${movieList}">
+                <div>
+                    <!--<img data-original="holder.js/262x166"
+                             class="img-responsive lazy center-block" alt="">-->
+                    <img th:src="@{${movie.img}}" width="190px" height="270px">
+                    <div class="text-left" style="margin-left:auto;margin-right:auto;width:200px;">
+                        <div style="color:#999;font-style: italic;text-align: center ;text-overflow:ellipsis;overflow: hidden;white-space: nowrap" th:text="${movie.name}"></div><br>
+                    </div>
+                    <a th:href="@{'/movie/'+${movie.id}}" class="btn btn-primary" target="_blank" role="button" style="margin-top: 0px"><span class="glyphicon glyphicon-play"></span>&nbsp;查看</a>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li>
+                            <a href="/movie/recommend/1" aria-label="First">
+                                <span aria-hidden="true">首页</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{'/movie/recommend/'+${pageNum-1}}" aria-label="Previous">
+                                <span aria-hidden="true">上一页</span>
+                            </a>
+                        </li>
+                        <li>
+                            <span th:text = ${pageNum}></span>
+                            <span >/</span>
+                            <span th:text = ${totalPage}></span>
+                        </li>
+                        <li>
+                            <a th:href="@{'/movie/recommend/'+${pageNum+1}}" aria-label="Next">
+                                <span aria-hidden="true">下一页</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{'/movie/recommend/'+${totalPage}}" aria-label="Last">
+                                <span aria-hidden="true">尾页</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!--电影列表-->
+<!--底部-->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+<script th:src="@{/base/js/jquery.min.js}"></script>
+<script th:src="@{/base/js/bootstrap.min.js}"></script>
+<script th:src="@{/base/js/jquery.singlePageNav.min.js}"></script>
+<script th:src="@{/base/js/jquery.serializejson.min.js}"></script>
+<script th:src="@{/base/js/jquery.gritter.min.js}"></script>
+<script th:src="@{/base/js/wow.min.js}"></script>
+<script th:src="@{//cdn.bootcss.com/holder/2.9.4/holder.min.js}"></script>
+<script th:src="@{/base/js/jquery.validate.min.js}"></script>
 <script type="text/javascript">
 
     jQuery.validator.addMethod("isMobile", function(value, element) {
@@ -183,7 +276,7 @@
             movieName=e.delegateTarget.value;
         });
         validateLoginForm();
-        validateRegisterForm()
+        validateRegisterForm();
     });
 
 
@@ -257,21 +350,22 @@
             errorElement: 'div',
             errorClass: 'help-block',
             focusInvalid: false,
+            debug: true,
             rules: {
-                name:{
+                mail:{
                     required:true,
                     email:true
                 },
-                password:{
+                passworld:{
                     required:true
                 }
             },
             messages:{
-                name:{
+                mail:{
                     required:"请输入邮箱",
                     email:"请输入正确的邮箱格式",
                 },
-                password:{
+                passworld:{
                     required:"请输入密码"
                 }
             },
@@ -320,6 +414,9 @@
                 success:function (result) {
                     if (result.state) {
                         successTip("注册成功！");
+                        setTimeout(function () {
+                            top.location.href = '/movie/recommend/1'
+                        },1000)
                     }else {
                         errorTip(result.info);
                     }
@@ -330,7 +427,7 @@
             });
         }
     }
-
+    
     function successTip(msg){
         $.gritter.add({
             title: '提示信息',
@@ -349,21 +446,21 @@
 
     function loginOut() {
         $.ajax({
-            url:"/user/exit",
-            type:"get",
-            success:function (result) {
-                if (result.state){
-                    successTip("注销登录成功！");
-                    setTimeout(function () {
-                        top.location.href = '/movie/list/2018/1'
-                    },500)
-                } else {
-                    errorTip(result.info);
-                }
-            },
-            error:function (result) {
-                errorTip("注销失败！")
-            }
+           url:"/user/exit",
+           type:"get",
+           success:function (result) {
+               if (result.state){
+                   successTip("注销登录成功！");
+                   setTimeout(function () {
+                       top.location.href = '/movie/list/2018/1'
+                   },500)
+               } else {
+                   errorTip(result.info);
+               }
+           },
+           error:function (result) {
+               errorTip("注销失败！")
+           }
         })
     }
 </script>

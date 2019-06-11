@@ -19,5 +19,5 @@ public interface ScoreMapper {
 
     Score select(Score score);
 
-    int selectLike(Integer userId);
+    Integer selectLike(Integer userId);
 }

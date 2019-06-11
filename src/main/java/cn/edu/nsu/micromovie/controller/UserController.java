@@ -40,8 +40,8 @@ public class UserController {
         }
         if(CryptUtil.decrypt(temp.getPassworld()).equals(user.getPassworld())){
             Preference preference = new Preference();
-            Integer scoreLabel = scoreMapper.selectLike(user.getId());
-            Integer collection = collectionMapper.selectLike(user.getId(),scoreLabel);
+            Integer scoreLabel = scoreMapper.selectLike(temp.getId());
+            Integer collection = collectionMapper.selectLike(temp.getId(),scoreLabel);
             if (scoreLabel!=null){
                 preference.setScoreLabelId(scoreLabel);
             }

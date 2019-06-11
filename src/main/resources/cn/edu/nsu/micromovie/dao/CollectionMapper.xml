@@ -83,9 +83,9 @@
   </select>
   <select id="selectLike" resultType="int">
     select labelid
-    from evaluation LEFT JOIN movie on evaluation.movieid = movie.id
-    where uid=#{userId,,jdbcType=INTEGER}
-    and labelid != #{scoreLabelId,,jdbcType=INTEGER}
+    from collection LEFT JOIN movie on collection.movieid = movie.id
+    where uid = #{userId,jdbcType=INTEGER}
+    and labelid != #{scoreLabelId,jdbcType=INTEGER}
     GROUP BY labelid
     ORDER BY count(labelid) desc
     LIMIT 1

@@ -158,6 +158,13 @@
       #{offset,jdbcType=INTEGER}
     </if>
   </select>
-
+  <select id="selectByLabelId" resultMap="BaseResultMap" parameterType="int">
+    select
+    <include refid="Base_Column_List" />
+    from movie
+    where labelid = #{labelId,jdbcType=INTEGER}
+    order by score desc
+    limit 0 ,#{offset,jdbcType=INTEGER}
+  </select>
 
 </mapper>

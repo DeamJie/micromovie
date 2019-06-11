@@ -23,5 +23,5 @@ public interface CollectionMapper {
 
     List<Collection> selectByFilter(CollectionFilter filter);
 
-    int selectLike(@Param("userId") Integer userId,@Param("scoreLabelId") Integer scoreLabelId);
+    Integer selectLike(@Param("userId") Integer userId,@Param("scoreLabelId") Integer scoreLabelId);
 }

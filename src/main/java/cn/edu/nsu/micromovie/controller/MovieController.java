@@ -106,8 +106,17 @@ public class MovieController {
         }
         if (httpSession.getAttribute("user")!=null){
             User temp = (User)httpSession.getAttribute("user");
-            temp.getPreference().setClickLabelId(id);
-            temp.getPreference().clickLabelScaleIncrease();
+            if (temp.getPreference().getClickLabelId() == id){
+                temp.getPreference().setClickLabelId(id);
+                temp.getPreference().clickLabelScaleIncrease();
+            }
+            else {
+                temp.getPreference().setClickLabelId(id);
+                temp.getPreference().setClickLabelScale(0.1D);
+                temp.getPreference().setConnectionLabelScale(0.2D);
+                temp.getPreference().setScoreLabelScale(0.7D);
+                temp.getPreference().clickLabelScaleIncrease();
+            }
             httpSession.setAttribute("user",temp);
         }
         filter.setOffset(12);
@@ -171,5 +180,40 @@ public class MovieController {
         return "admin/movie_list";
     }
 
-
+    @GetMapping("/recommend/{pageNum}")
+    public String getRecommend(HttpSession session,Model model,@PathVariable("pageNum") int pageNum){
+        User temp = (User)session.getAttribute("user");
+        List<Movie> movieList = movieService.selectLike(temp.getPreference());
+        if (movieList==null||movieList.size()==0){
+            return "redirect:/movie/list/2018/1";
+        }
+        else {
+            ArrayList<Label> lableList = (ArrayList<Label>)labelService.selectAll();
+            int totalPage=1;
+            if (movieList.size()%12==0){
+                totalPage = movieList.size()/12;
+            }else {
+                totalPage = movieList.size()/12+1;
+            }
+            if (pageNum<1){
+                pageNum=1;
+            }
+            if (pageNum<totalPage){
+                model.addAttribute("movieList",movieList.subList((pageNum-1)*12,pageNum*12));
+            }
+            if (pageNum>=totalPage){
+                pageNum=totalPage;
+                if (movieList.size()%12!=0){
+                    model.addAttribute("movieList",movieList.subList((pageNum-1)*12,(pageNum-1)*12+(movieList.size()%12)));
+                }
+                else {
+                    model.addAttribute("movieList",movieList.subList((pageNum-1)*12,pageNum*12));
+                }
+            }
+            model.addAttribute("lableList" , lableList);
+            model.addAttribute("pageNum",pageNum);
+            model.addAttribute("totalPage",totalPage);
+            return "recommend";
+        }
+    }
 }

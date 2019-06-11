@@ -137,7 +137,7 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a class="curlink" href="index.html"><span class="glyphicon glyphicon-film"></span>电影</a>
+                    <a th:if="${session.user!=null}" class="curlink" href="/movie/recommend/1"><span class="glyphicon glyphicon-film"></span>推荐</a>
                 </li>
                 <li>
                     <a th:if="${session.user==null}" class="curlink" data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span>登录</a>
@@ -228,7 +228,7 @@
                                             <option value ="2">2</option>
                                             <option value="3">3</option>
                                             <option value="4">4</option>
-                                            <option value ="1">5</option>
+                                            <option value ="5">5</option>
                                         </select>
                                         <button  type="button" onclick="s()" class="btn btn-xs" style="border-radius: 4px">提交评分</button>
                                     </td>
@@ -563,6 +563,9 @@
                 success:function (result) {
                     if (result.state) {
                         successTip("登录成功！");
+                        setTimeout(function () {
+                            top.location.href = '/movie/recommend/1'
+                        },1000)
                     }else {
                         errorTip(result.info);
                     }
@@ -588,6 +591,9 @@
                 success:function (result) {
                     if (result.state) {
                         successTip("注册成功！");
+                        setTimeout(function () {
+                            top.location.href = '/movie/recommend/1'
+                        },1000)
                     }else {
                         errorTip(result.info);
                     }
@@ -622,6 +628,9 @@
             success:function (result) {
                 if (result.state){
                     successTip("注销登录成功！");
+                    setTimeout(function () {
+                        top.location.href = '/movie/list/2018/1'
+                    },500)
                 } else {
                     errorTip(result.info);
                 }

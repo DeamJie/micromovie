@@ -142,7 +142,7 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a class="curlink" href="index.html"><span class="glyphicon glyphicon-film"></span>电影</a>
+                    <a th:if="${session.user!=null}" class="curlink" href="/movie/recommend/1"><span class="glyphicon glyphicon-film"></span>推荐</a>
                 </li>
                 <li>
                     <a th:if="${session.user==null}" class="curlink" data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span>登录</a>
@@ -389,6 +389,9 @@
                 success:function (result) {
                     if (result.state) {
                         successTip("登录成功！");
+                        setTimeout(function () {
+                            top.location.href = '/movie/recommend/1'
+                        },1000)
                     }else {
                         errorTip(result.info);
                     }
@@ -414,6 +417,9 @@
                 success:function (result) {
                     if (result.state) {
                         successTip("注册成功！");
+                        setTimeout(function () {
+                            top.location.href = '/movie/recommend/1'
+                        },1000)
                     }else {
                         errorTip(result.info);
                     }
@@ -448,6 +454,9 @@
            success:function (result) {
                if (result.state){
                    successTip("注销登录成功！");
+                   setTimeout(function () {
+                       top.location.href = '/movie/list/2018/1'
+                   },500)
                } else {
                    errorTip(result.info);
                }

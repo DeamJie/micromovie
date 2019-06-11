@@ -3,6 +3,7 @@ package cn.edu.nsu.micromovie.dao;
 import cn.edu.nsu.micromovie.Filter.MovieFilter;
 import cn.edu.nsu.micromovie.model.Movie;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,5 +23,5 @@ public interface MovieMapper {
 
     List<Movie> selectByFilter(MovieFilter filter);
 
-
+    List<Movie> selectByLabelId(@Param("labelId") Integer labelId,@Param("offset") Integer offset);
 }
