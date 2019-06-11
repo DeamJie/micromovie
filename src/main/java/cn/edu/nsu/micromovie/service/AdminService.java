@@ -12,4 +12,12 @@ public class AdminService {
     public Admin selectByName(String name){
         return adminMapper.selectByName(name);
     }
+
+    public int insert(Admin admin){
+        return adminMapper.insertSelective(admin);
+    }
+
+    public int pwd(Admin admin){
+        return adminMapper.updateByPrimaryKeySelective(admin);
+    }
 }

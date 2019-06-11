@@ -53,6 +53,7 @@ public class EvaluationService {
         evaluationDto.setMovieName(movieMapper.selectByPrimaryKey(evaluation.getMovieid()).getName());
         evaluationDto.setEvaluation(evaluation.getEvaluation());
         evaluationDto.setDate(evaluation.getDate());
+        evaluationDto.setEvaluationid(evaluation.getEvaluationid());
         return evaluationDto;
     }
 
@@ -65,5 +66,9 @@ public class EvaluationService {
             }
         }
         return result;
+    }
+
+    public int del(Integer id){
+        return evaluationMapper.deleteByPrimaryKey(id);
     }
 }

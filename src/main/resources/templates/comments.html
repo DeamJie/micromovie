@@ -28,91 +28,6 @@
 </head>
 
 <body>
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <div class="panel-heading">
-                    <h3 class="panel-title"><span class="glyphicon glyphicon-log-in"></span>&nbsp;会员登录</h3>
-                </div>
-            </div>
-            <div class="panel-body">
-                <form id="login_form" role="form">
-                    <fieldset>
-                        <div class="form-group">
-                            <label for="input_contact"><span class="glyphicon glyphicon-user"></span>&nbsp;账号</label>
-                            <input id="input_contact" class="form-control input-lg" placeholder="邮箱" name="mail" type="text" autofocus>
-                        </div>
-                        <div class="col-md-12" id="error_contact"></div>
-                        <div class="form-group">
-                            <label for="input_password"><span class="glyphicon glyphicon-lock"></span>&nbsp;密码</label>
-                            <input id="input_password" class="form-control input-lg" placeholder="密码" name="passworld" type="password" value="">
-                        </div>
-                        <div class="col-md-12" id="error_password"></div>
-                        <a href="javasript:void(0)" onclick="login()" class="btn btn-lg btn-success btn-block">登录</a>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal -->
-</div>
-
-<!--
-    作者：644773746@qq.com
-    时间：2019-05-02
-    描述：注册的弹出框
--->
-<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <div class="panel-heading">
-                    <h3 class="panel-title"><span class="glyphicon glyphicon-plus"></span>&nbsp;会员注册</h3>
-                </div>
-            </div>
-            <div class="panel-body">
-                <div class="panel-body">
-                    <form id="register_form" role="form">
-                        <fieldset>
-                            <div class="form-group">
-                                <label for="name"><span class="glyphicon glyphicon-user"></span>&nbsp;昵称</label>
-                                <input class="form-control input-lg" placeholder="昵称" name="name" type="text" autofocus>
-                            </div>
-                            <div class="col-md-12" id="error_name"></div>
-                            <div class="form-group">
-                                <label for="email"><span class="glyphicon glyphicon-envelope"></span>&nbsp;邮箱</label>
-                                <input name="mail" class="form-control input-lg" placeholder="邮箱"  type="email" autofocus>
-                            </div>
-                            <div class="col-md-12" id="error_email"></div>
-                            <div class="form-group">
-                                <label for="phoneNum"><span class="glyphicon glyphicon-phone"></span>&nbsp;手机</label>
-                                <input name="phonenumber" class="form-control input-lg" placeholder="手机" type="text" autofocus>
-                            </div>
-                            <div class="col-md-12" id="error_phone"></div>
-                            <div class="form-group">
-                                <label for="password"><span class="glyphicon glyphicon-lock"></span>&nbsp;密码</label>
-                                <input id="passworld" class="form-control input-lg" placeholder="密码" name="passworld" type="password">
-                            </div>
-                            <div class="col-md-12" id="error_password"></div>
-                            <div class="form-group">
-                                <label for="repassword"><span class="glyphicon glyphicon-lock"></span>&nbsp;确认密码</label>
-                                <input id="repassword" class="form-control input-lg" placeholder="确认密码" name="repassword" type="password">
-                            </div>
-                            <div class="col-md-12" id="error_repassword"></div>
-                            <a href="javascript:void(0)" onclick="register()" class="btn btn-lg btn-success btn-block">注册</a>
-                        </fieldset>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal -->
-</div>
 <!--导航-->
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -123,7 +38,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="index.html" class="navbar-brand" style="width:250px;">
+            <a href="/movie/list/2018/1" class="navbar-brand" style="width:250px;">
                 <img th:src="@{/base/images/logo.png}" style="height:30px;">&nbsp;微电影
             </a>
         </div>

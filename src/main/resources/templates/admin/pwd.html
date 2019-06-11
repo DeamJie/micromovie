@@ -175,8 +175,8 @@
         <section class="content-header">
             <h1>微电影管理系统</h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> 标签管理</a></li>
-                <li class="active">添加标签</li>
+                <li><a href="#"><i class="fa fa-dashboard"></i> 个人资料</a></li>
+                <li class="active">修改密码</li>
             </ol>
         </section>
         <section class="content" id="showcontent">
@@ -184,17 +184,22 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">添加标签</h3>
+                            <h3 class="box-title">修改密码</h3>
                         </div>
-                        <form role="form" id="tag_add">
+                        <form role="form" id="admin-pwd">
                             <div class="box-body">
+                                <input name="name" value="hujie" hidden="hidden">
                                 <div class="form-group">
-                                    <label for="input_name">标签名称</label>
-                                    <input name="name" type="text" class="form-control" id="input_name" placeholder="请输入标签名称！">
+                                    <label for="input_pwd">旧密码</label>
+                                    <input name="oldPassworld" type="password" class="form-control" id="input_pwd" placeholder="请输入旧密码！">
+                                </div>
+                                <div class="form-group">
+                                    <label for="input_newpwd">新密码</label>
+                                    <input name="passworld" type="password" class="form-control" id="input_newpwd" placeholder="请输入新密码！">
                                 </div>
                             </div>
                             <div class="box-footer">
-                                <button onclick="add()" type="button" class="btn btn-primary">添加</button>
+                                <button onclick="add()"  type="button" class="btn btn-primary">修改</button>
                             </div>
                         </form>
                     </div>
@@ -221,32 +226,32 @@
 <script th:src="@{/base/js/jquery.gritter.min.js}"></script>
 <script th:src="@{//cdn.bootcss.com/holder/2.9.4/holder.min.js}"></script>
 <script th:src="@{/base/js/jquery.validate.min.js}"></script>
-
 <script type="text/javascript">
     $(document).ready(function(){
         validateLoginForm();
     });
 
     function validateLoginForm(){
-        return $("#tag_add").validate({
+        return $("#admin-pwd").validate({
             errorElement: 'div',
             errorClass: 'help-block',
             focusInvalid: false,
             debug: true,
             rules: {
-                name:{
+                oldPassworld:{
+                    required:true
+                },
+                passworld:{
                     required:true,
-                    remote:{
-                        url:"/label/isExit",
-                        type:"post"
-                    }
                 }
             },
             messages:{
-                name:{
-                    required:"请输入标签名",
-                    remote:"已存在此标签"
-                }
+                oldPassworld:{
+                    required:"请输入密码"
+                },
+                passworld:{
+                    required:"请输入新密码"
+                },
             },
             highlight: function (e) {
                 $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
@@ -256,9 +261,9 @@
 
     function add() {
         if (validateLoginForm().form()){
-            var data = JSON.stringify($("#tag_add").serializeJSON());
+            var data = JSON.stringify($("#admin-pwd").serializeJSON());
             $.ajax({
-                url:"/label/add",
+                url:"/admin/pwd",
                 type: "post",
                 contentType: false,
                 processData: false,
@@ -267,13 +272,16 @@
                 dataType: "json",
                 success:function (result) {
                     if (result.state) {
-                        successTip("添加成功！");
+                        successTip("修改成功！");
+                        setTimeout(function () {
+                            top.location.href = '/admin/login-view'
+                        },1000);
                     }else {
                         errorTip(result.info);
                     }
                 },
                 error:function () {
-                    errorTip("添加失败！");
+                    errorTip("修改失败！");
                 }
             });
         }
@@ -287,9 +295,6 @@
             success:function (result) {
                 if (result.state) {
                     successTip("退出成功！");
-                    setTimeout(function () {
-                        top.location.href = '/admin/login-view'
-                    },1000);
                 }else {
                     errorTip(result.info);
                 }
@@ -316,6 +321,5 @@
         });
     }
 </script>
-
 </body>
 </html>

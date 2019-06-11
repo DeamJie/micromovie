@@ -7,6 +7,8 @@ public class Admin {
 
     private String passworld;
 
+    private String oldPassworld;
+
     private String salt;
 
     public Integer getAdminid() {
@@ -39,5 +41,13 @@ public class Admin {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public String getOldPassworld() {
+        return oldPassworld;
+    }
+
+    public void setOldPassworld(String oldPassworld) {
+        this.oldPassworld = oldPassworld;
     }
 }

@@ -85,4 +85,10 @@
     where userid = #{userid,jdbcType=INTEGER}
     and moveid = #{moveid,jdbcType=INTEGER}
   </select>
+  <select id="selectLike" resultType="int" parameterType="int">
+    select labelid from score LEFT JOIN movie on score.moveid = movie.id
+    where userid = #{userId,jdbcType=INTEGER}
+    GROUP BY labelid desc
+    limit 1
+  </select>
 </mapper>

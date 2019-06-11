@@ -1,9 +1,13 @@
 package cn.edu.nsu.micromovie.controller;
 
 import cn.edu.nsu.micromovie.Filter.UserFilter;
+import cn.edu.nsu.micromovie.dao.CollectionMapper;
+import cn.edu.nsu.micromovie.dao.ScoreMapper;
+import cn.edu.nsu.micromovie.dao.UserMapper;
 import cn.edu.nsu.micromovie.model.User;
 import cn.edu.nsu.micromovie.service.UserService;
 import cn.edu.nsu.micromovie.util.HandleResult;
+import cn.edu.nsu.micromovie.util.recommend.Preference;
 import cn.edu.nsu.micromovie.util.security.CryptUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +24,12 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private ScoreMapper scoreMapper;
+    @Autowired
+    private CollectionMapper collectionMapper;
 
     @PostMapping("/login")
     @ResponseBody
@@ -29,6 +39,16 @@ public class UserController {
             return HandleResult.error("登录失败，没有此用户！");
         }
         if(CryptUtil.decrypt(temp.getPassworld()).equals(user.getPassworld())){
+            Preference preference = new Preference();
+            Integer scoreLabel = scoreMapper.selectLike(user.getId());
+            Integer collection = collectionMapper.selectLike(user.getId(),scoreLabel);
+            if (scoreLabel!=null){
+                preference.setScoreLabelId(scoreLabel);
+            }
+            if (collection!=null){
+                preference.setConnectionLabelId(collection);
+            }
+            temp.setPreference(preference);
             session.setAttribute("user",temp);
             session.setMaxInactiveInterval(36000);
             return HandleResult.success();
@@ -43,7 +63,9 @@ public class UserController {
         user.setPassworld(CryptUtil.encrypt(user.getPassworld()));
         Integer result = userService.createUser(user);
         if(result == 1){
+            Preference preference = new Preference();
             User temp = userService.selectByEmail(user.getMail());
+            temp.setPreference(preference);
             session.setAttribute("user",temp);
             return HandleResult.success();
         }else {
@@ -131,6 +153,31 @@ public class UserController {
         List<User> list = userService.selectAll(filter);
         model.addAttribute("pageNum",pageNum);
         model.addAttribute("totalPage",totalPageNum);
+        model.addAttribute("list",list);
+        return "admin/user_list";
+    }
+
+    @GetMapping("/freeze/{id}")
+    public String freeze(@PathVariable("id") int id){
+        User user = userMapper.selectByPrimaryKey(id);
+        user.setFreeze(1);
+        userMapper.updateByPrimaryKeySelective(user);
+        return "redirect:/user/view/1";
+    }
+
+    @GetMapping("/refreeze/{id}")
+    public String refreeze(@PathVariable("id") int id){
+        User user = userMapper.selectByPrimaryKey(id);
+        user.setFreeze(0);
+        userMapper.updateByPrimaryKeySelective(user);
+        return "redirect:/user/view/1";
+    }
+
+    @GetMapping("/search/{name}")
+    public String search(@PathVariable("name") String name , Model model){
+        List<User> list = userMapper.selectByName(name);
+        model.addAttribute("pageNum",1);
+        model.addAttribute("totalPage",1);
         model.addAttribute("list",list);
         return "admin/user_list";
     }

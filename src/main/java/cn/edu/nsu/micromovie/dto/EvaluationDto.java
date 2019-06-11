@@ -3,6 +3,7 @@ package cn.edu.nsu.micromovie.dto;
 import java.util.Date;
 
 public class EvaluationDto {
+    private Integer evaluationid;
     private String name;
     private String movieName;
     private String evaluation;
@@ -34,6 +35,14 @@ public class EvaluationDto {
 
     public Date getDate() {
         return date;
+    }
+
+    public Integer getEvaluationid() {
+        return evaluationid;
+    }
+
+    public void setEvaluationid(Integer evaluationid) {
+        this.evaluationid = evaluationid;
     }
 
     public void setDate(Date date) {

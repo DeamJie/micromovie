@@ -20,9 +20,10 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    User selectByName(String name);
+    List<User> selectByName(String name);
 
     User selectByMail(String mail);
 
     List<User> selectAll(UserFilter filter);
+
 }

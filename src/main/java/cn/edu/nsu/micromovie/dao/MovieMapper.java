@@ -21,4 +21,6 @@ public interface MovieMapper {
     int updateByPrimaryKey(Movie record);
 
     List<Movie> selectByFilter(MovieFilter filter);
+
+
 }

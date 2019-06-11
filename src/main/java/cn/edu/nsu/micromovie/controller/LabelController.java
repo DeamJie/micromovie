@@ -1,5 +1,6 @@
 package cn.edu.nsu.micromovie.controller;
 
+import cn.edu.nsu.micromovie.dao.LabelMapper;
 import cn.edu.nsu.micromovie.model.Label;
 import cn.edu.nsu.micromovie.service.LabelService;
 import cn.edu.nsu.micromovie.util.HandleResult;
@@ -15,6 +16,8 @@ import java.util.List;
 public class LabelController {
     @Autowired
     private LabelService labelService;
+    @Autowired
+    private LabelMapper labelMapper;
 
     @GetMapping("/list")
     public String labelList(Model model){
@@ -42,5 +45,13 @@ public class LabelController {
     @ResponseBody
     public boolean isExit(String name){
         return !labelService.isExit(name);
+    }
+
+    @GetMapping("/del/{id}")
+    public String del(@PathVariable("id") int id){
+        if (labelMapper.deleteByPrimaryKey(id)==1){
+            return "redirect:/label/list";
+        }
+        return "redirect:/label/list";
     }
 }

@@ -31,10 +31,10 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
     <header class="main-header">
-        <a href="movie_list.html" class="logo">
-            <span class="logo-mini"><img src="../static/base/images/logo.png"
+        <a href="javascript:void(0)" class="logo">
+            <span class="logo-mini"><img th:src="@{/base/images/logo.png}"
                                          style="height:40px;width:40px;">电影系统</span>
-            <span class="logo-lg"><img src="../static/base/images/logo.png"
+            <span class="logo-lg"><img th:src="@{/base/images/logo.png}"
                                        style="height:40px;width:40px;">微电影管理系统</span>
         </a>
         <nav class="navbar navbar-static-top">
@@ -45,25 +45,23 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="../static/admin/dist/img/user2-160x160.jpg"
+                            <img th:src="@{/admin/dist/img/user2-160x160.jpg}"
                                  class="user-image" alt="User Image">
-                            <span class="hidden-xs">xxx</span>
+                            <span th:text="${session.admin.name}" class="hidden-xs"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="user-header">
-                                <img src="../static/admin/dist/img/user2-160x160.jpg"
+                                <img th:src="@{/admin/dist/img/user2-160x160.jpg}"
                                      class="img-circle" alt="User Image">
-                                <p>
-                                    xxx
-                                    <small>2017-06-01</small>
+                                <p th:text="${session.admin.name}">
                                 </p>
                             </li>
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="pwd.html" class="btn btn-default btn-flat">修改密码</a>
+                                    <a href="/admin/pwd-view" class="btn btn-default btn-flat">修改密码</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="login.html" class="btn btn-default btn-flat">退出系统</a>
+                                    <a onclick="loginOut()" href="javascript:void(0)" class="btn btn-default btn-flat">退出系统</a>
                                 </div>
                             </li>
                         </ul>
@@ -76,27 +74,17 @@
         <section class="sidebar">
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="../static/admin/dist/img/user2-160x160.jpg" class="img-circle"
+                    <img th:src="@{/admin/dist/img/user2-160x160.jpg}" class="img-circle"
                          alt="User Image">
                 </div>
                 <div class="pull-left info">
-                    <p>用户xxx</p>
+                    <p th:text="${session.admin.name}"></p>
                     <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
                 </div>
             </div>
-            <form action="#" method="get" class="sidebar-form">
-                <div class="input-group">
-                    <input type="text" name="q" class="form-control" placeholder="搜索...">
-                    <span class="input-group-btn">
-                        <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i
-                                class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </form>
             <ul class="sidebar-menu">
                 <li class="header">管理菜单</li>
-                
+
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-tags" aria-hidden="true"></i>
@@ -105,12 +93,12 @@
                     </a>
                     <ul class="treeview-menu">
                         <li>
-                            <a href="tag_add.html">
+                            <a href="/label/add-view">
                                 <i class="fa fa-circle-o"></i> 添加标签
                             </a>
                         </li>
                         <li>
-                            <a href="tag_list.html">
+                            <a href="/label/list">
                                 <i class="fa fa-circle-o"></i> 标签列表
                             </a>
                         </li>
@@ -124,12 +112,12 @@
                     </a>
                     <ul class="treeview-menu">
                         <li>
-                            <a href="movie_add.html">
+                            <a href="/movie/add-view">
                                 <i class="fa fa-circle-o"></i> 添加电影
                             </a>
                         </li>
                         <li>
-                            <a href="movie_list.html">
+                            <a href="/movie/all/1">
                                 <i class="fa fa-circle-o"></i> 电影列表
                             </a>
                         </li>
@@ -143,13 +131,13 @@
                     </a>
                     <ul class="treeview-menu">
                         <li>
-                            <a href="user_list.html">
+                            <a href="/user/view/1">
                                 <i class="fa fa-circle-o"></i> 会员列表
                             </a>
                         </li>
                     </ul>
                 </li>
-                
+
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-comments" aria-hidden="true"></i>
@@ -158,28 +146,23 @@
                     </a>
                     <ul class="treeview-menu">
                         <li>
-                            <a href="comment_list.html">
+                            <a href="/evaluation/all/1">
                                 <i class="fa fa-circle-o"></i> 评论列表
                             </a>
                         </li>
                     </ul>
                 </li>
-               
+
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-user-circle" aria-hidden="true"></i>
                         <span>管理员管理</span>
-                        <span class="label label-primary pull-right">2</span>
+                        <span class="label label-primary pull-right">1</span>
                     </a>
                     <ul class="treeview-menu">
                         <li>
-                            <a href="admin_add.html">
+                            <a href="/admin/add-view">
                                 <i class="fa fa-circle-o"></i> 添加管理员
-                            </a>
-                        </li>
-                        <li>
-                            <a href="admin_list.html">
-                                <i class="fa fa-circle-o"></i> 管理员列表
                             </a>
                         </li>
                     </ul>
@@ -202,23 +185,12 @@
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">评论列表</h3>
-                            <div class="box-tools">
-                                <div class="input-group input-group-sm" style="width: 150px;">
-                                    <input type="text" name="table_search" class="form-control pull-right"
-                                           placeholder="请输入关键字...">
-
-                                    <div class="input-group-btn">
-                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="box-body box-comments">
                             <div class="box-comment" th:each="evaluation:${list}">
                                 <div class="comment-text">
+                                    <input id="commentID" th:value="${evaluation.evaluationid}" hidden="hidden"/>
                                     <span class="username" th:text="${evaluation.name}">
-                                        小丽
                                         <span class="text-muted pull-right" th:text="${evaluation.date}">
                                             <i class="fa fa-calendar" aria-hidden="true"></i>
                                         </span>
@@ -230,7 +202,7 @@
                                     <span th:text="${evaluation.evaluation}">
 
                                     </span>
-                                    <br><a class="label label-danger pull-right">删除</a>
+                                    <br><a onclick="del()" class="label label-danger pull-right">删除</a>
                                 </div>
                             </div>
                         </div>
@@ -249,12 +221,7 @@
         </section>
         <!--内容-->
     </div>
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>版本</b> 1.0
-        </div>
-        
-    </footer>
+
     <div class="control-sidebar-bg"></div>
 </div>
 <script th:src="@{/admin/plugins/jQuery/jQuery-2.2.0.min.js}"></script>
@@ -272,7 +239,66 @@
 <script th:src="@{/base/js/jquery.gritter.min.js}"></script>
 <script th:src="@{//cdn.bootcss.com/holder/2.9.4/holder.min.js}"></script>
 <script th:src="@{/base/js/jquery.validate.min.js}"></script>
+<script th:src="@{/base/js/bootbox.js}"></script>
+<script type="text/javascript">
+    function del() {
+        bootbox.confirm("删除后无法恢复，确定要删除吗?", function (result) {
+            if (result) {
+                var id=$("#commentID").val();
+                $.ajax({
+                    url: "/evaluation/del/" + id,
+                    dataType: 'json'
+                }).then(function (success) {
+                    if (success.state) {
+                        successTip("删除成功");
+                        setTimeout(function () {
+                            top.location.href = "/evaluation/all/1";
+                        },500)
+                    } else {
+                        errorTip("删除发生错误，请刷新后再试。");
+                    }
+                });
+            }
+        });
+    }
 
+    function loginOut() {
+        $.ajax({
+            url:"/admin/login-out",
+            type: "post",
+            dataType: "json",
+            success:function (result) {
+                if (result.state) {
+                    successTip("退出成功！");
+                    setTimeout(function () {
+                        top.location.href = '/admin/login-view'
+                    },1000);
+                }else {
+                    errorTip(result.info);
+                }
+            },
+            error:function () {
+                errorTip("退出失败！");
+            }
+        });
+    }
 
+    function successTip(msg){
+        $.gritter.add({
+            title: '提示信息',
+            text: msg,
+            class_name: 'gritter-success gritter-light'
+        });
+    }
+
+    function errorTip(msg){
+        $.gritter.add({
+            title: '提示信息',
+            text: msg,
+            class_name: 'gritter-error gritter-light'
+        });
+    }
+
+</script>
 </body>
 </html>

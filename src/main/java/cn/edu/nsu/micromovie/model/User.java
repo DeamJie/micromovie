@@ -1,5 +1,7 @@
 package cn.edu.nsu.micromovie.model;
 
+import cn.edu.nsu.micromovie.util.recommend.Preference;
+
 public class User {
     private Integer id;
 
@@ -18,6 +20,8 @@ public class User {
     private String introduction;
 
     private Integer freeze;
+
+    private Preference preference;
 
     public Integer getId() {
         return id;
@@ -89,5 +93,14 @@ public class User {
 
     public void setFreeze(Integer freeze) {
         this.freeze = freeze;
+    }
+
+
+    public Preference getPreference() {
+        return preference;
+    }
+
+    public void setPreference(Preference preference) {
+        this.preference = preference;
     }
 }

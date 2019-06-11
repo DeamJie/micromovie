@@ -1,8 +1,11 @@
 package cn.edu.nsu.micromovie.controller;
 
 import cn.edu.nsu.micromovie.Filter.CollectionFilter;
+import cn.edu.nsu.micromovie.dao.CollectionMapper;
+import cn.edu.nsu.micromovie.dao.ScoreMapper;
 import cn.edu.nsu.micromovie.model.Collection;
 import cn.edu.nsu.micromovie.model.Movie;
+import cn.edu.nsu.micromovie.model.User;
 import cn.edu.nsu.micromovie.service.CollectionService;
 import cn.edu.nsu.micromovie.util.HandleResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -17,12 +21,26 @@ import java.util.List;
 public class CollectionController {
     @Autowired
     private CollectionService collectionService;
+    @Autowired
+    private ScoreMapper scoreMapper;
+    @Autowired
+    private CollectionMapper collectionMapper;
 
     @PostMapping("/{userId}")
     @ResponseBody
-    public HandleResult createCollection(@PathVariable("userId") Integer userId,@RequestBody Collection collection){
+    public HandleResult createCollection(@PathVariable("userId") Integer userId, @RequestBody Collection collection, HttpSession session){
         collection.setUid(userId);
         if (collectionService.insert(collection) == 1){
+            User temp = (User)session.getAttribute("user");
+            Integer scoreLabel = scoreMapper.selectLike(temp.getId());
+            Integer collectionLabel = collectionMapper.selectLike(temp.getId(),scoreLabel);
+            if (scoreLabel!=null){
+                temp.getPreference().setScoreLabelId(scoreLabel);
+            }
+            if (collection!=null){
+                temp.getPreference().setConnectionLabelId(collectionLabel);
+            }
+            session.setAttribute("user",temp);
             return HandleResult.success();
         }else {
             return HandleResult.error("收藏电影失败!");

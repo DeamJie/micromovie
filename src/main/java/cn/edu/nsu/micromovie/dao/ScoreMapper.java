@@ -18,4 +18,6 @@ public interface ScoreMapper {
     int updateByPrimaryKey(Score record);
 
     Score select(Score score);
+
+    int selectLike(Integer userId);
 }

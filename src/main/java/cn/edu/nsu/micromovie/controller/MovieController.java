@@ -2,7 +2,9 @@ package cn.edu.nsu.micromovie.controller;
 
 import cn.edu.nsu.micromovie.Filter.EvaluationFilter;
 import cn.edu.nsu.micromovie.Filter.MovieFilter;
+import cn.edu.nsu.micromovie.dao.CollectionMapper;
 import cn.edu.nsu.micromovie.dao.MovieMapper;
+import cn.edu.nsu.micromovie.dao.ScoreMapper;
 import cn.edu.nsu.micromovie.dto.EvaluationDto;
 import cn.edu.nsu.micromovie.model.Label;
 import cn.edu.nsu.micromovie.model.Movie;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.jws.WebParam;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +94,7 @@ public class MovieController {
     }
 
     @GetMapping("/type/{typeid}/{pageNum}")
-    public String getMovieByType(@PathVariable("typeid") Integer id , Model model,@PathVariable("pageNum") Integer pageNum){
+    public String getMovieByType(@PathVariable("typeid") Integer id , Model model,@PathVariable("pageNum") Integer pageNum ,HttpSession httpSession){
         MovieFilter filter = new MovieFilter();
         filter.setLabelId(id);
         Integer totalPageNum =movieService.selectByFilter(filter).size()/12;
@@ -100,6 +103,12 @@ public class MovieController {
         }
         if (pageNum>totalPageNum){
             pageNum=totalPageNum;
+        }
+        if (httpSession.getAttribute("user")!=null){
+            User temp = (User)httpSession.getAttribute("user");
+            temp.getPreference().setClickLabelId(id);
+            temp.getPreference().clickLabelScaleIncrease();
+            httpSession.setAttribute("user",temp);
         }
         filter.setOffset(12);
         filter.setRows((pageNum-1)*12);
@@ -140,4 +149,27 @@ public class MovieController {
             return HandleResult.error("添加电影失败！");
         }
     }
+
+    @GetMapping("/del/{id}")
+    @ResponseBody
+    public HandleResult delMovie(@PathVariable("id") int id){
+        if (movieService.del(id) ==1){
+            return HandleResult.success();
+        }else {
+            return HandleResult.error("删除电影失败！");
+        }
+    }
+
+    @GetMapping("/admin/select/{name}")
+    public String selectAdmin(@PathVariable("name") String name , Model model){
+        MovieFilter filter = new MovieFilter();
+        filter.setMovieName(name);
+        List<Movie> list = movieService.selectByFilter(filter);
+        model.addAttribute("movieList" , list);
+        model.addAttribute("pageNum",1);
+        model.addAttribute("totalPage",1);
+        return "admin/movie_list";
+    }
+
+
 }

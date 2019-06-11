@@ -99,6 +99,9 @@
                 success:function (result) {
                     if (result.state) {
                         successTip("登录成功！");
+                        setTimeout(function () {
+                            top.location.href = '/movie/all/1'
+                        },1000);
                     }else {
                         errorTip(result.info);
                     }

@@ -90,4 +90,28 @@ public class Movie {
     public void setDownload(String download) {
         this.download = download;
     }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj) {
+            return true;
+        }
+        if(null == obj) {
+            return false;
+        }
+        if(getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Movie movie = (Movie) obj;
+        if(!name.equals(movie.name)) {
+            return false;
+        }
+        return true;
+    }
 }

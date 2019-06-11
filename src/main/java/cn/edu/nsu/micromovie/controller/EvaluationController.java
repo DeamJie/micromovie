@@ -4,6 +4,7 @@ import cn.edu.nsu.micromovie.Filter.EvaluationFilter;
 import cn.edu.nsu.micromovie.dto.EvaluationDto;
 import cn.edu.nsu.micromovie.model.Evaluation;
 import cn.edu.nsu.micromovie.service.EvaluationService;
+import cn.edu.nsu.micromovie.util.HandleResult;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,5 +70,15 @@ public class EvaluationController {
         model.addAttribute("pageNum",pageNum);
         model.addAttribute("totalPageNum",totalPageNum);
         return "admin/comment_list";
+    }
+
+    @GetMapping("/del/{id}")
+    @ResponseBody
+    public HandleResult del(@PathVariable("id") int id){
+        if (evaluationService.del(id)==1){
+            return HandleResult.success();
+        }else {
+            return HandleResult.error("删除失败");
+        }
     }
 }
