@@ -87,6 +87,13 @@ public class MovieController {
         if (session.getAttribute("user")!=null){
             User user = (User)session.getAttribute("user");
             model.addAttribute("id",user.getId());
+            List<Movie> recommend = movieService.selectLike(user.getPreference());
+            if (recommend == null || recommend.size() == 0){
+                recommend = movieMapper.selectByLabelId(movieService.selectById(id).getLabelid(),8);
+                model.addAttribute("recommend",recommend);
+            }else {
+                model.addAttribute("recommend",movieService.selectLike(user.getPreference()).subList(0,8));
+            }
         }
         model.addAttribute("list",list);
         model.addAttribute("label",labelService.selectById(movieService.selectById(id).getLabelid()));

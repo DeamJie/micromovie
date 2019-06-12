@@ -245,10 +245,10 @@
             <td style="color:#ccc;font-weight:bold;font-style:italic;">
                 <h3>猜你可能还喜欢</h3>
             </td>
-            <a href="#"> <h4 style="color:#ccc;font-weight:bold;font-style:italic;">
-                &nbsp;电影名称
-            </h4>
-
+            <a th:each="movie:${recommend}" href="">
+                <h4 th:text="${movie.name}" style="color:#ccc;font-weight:bold;font-style:italic;">
+                </h4>
+            </a>
         </tr>
     </div>
     <div class="col-md-7" style="margin-top:10px;">
